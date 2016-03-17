@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.adm.gaia</groupId>
-    <artifactId>com.adm.gaia.itest</artifactId>
+    <artifactId>gaia-itest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
 

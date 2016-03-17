@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.adm.gaia.webhook.rest.RestClient;
 import com.adm.gaia.webhook.rest.RestConstants;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GaiaTokenBuilder {
     
     @Autowired

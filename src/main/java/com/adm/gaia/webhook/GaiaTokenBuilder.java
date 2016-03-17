@@ -1,6 +1,9 @@
 package com.adm.gaia.webhook;
 
+import okhttp3.Response;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.adm.gaia.webhook.rest.RestClient;
@@ -11,7 +14,8 @@ import org.springframework.stereotype.Component;
 public class GaiaTokenBuilder {
     
     @Autowired
-    GaiaConfiguration _config;
+    private GaiaConfiguration _config;
+    private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     
     public String build() {
         
@@ -21,11 +25,12 @@ public class GaiaTokenBuilder {
     }
     
     private void createTenant() {
-        
-        RestClient.post(
+
+        Response response = RestClient.post(
                 _config.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX,
                 getJsonBodyCreateTenant(),
                 RestConstants.APPLICATION_JSON);
+        _logger.debug(response.toString());
     }
     
     private String getJsonBodyCreateTenant() {

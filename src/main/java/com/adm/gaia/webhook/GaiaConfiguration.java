@@ -8,16 +8,30 @@ public class GaiaConfiguration {
     
     @Value("${gaia.url}")
     private String _gaiaUrl;
-    @Value("${tenant.admin.user.name}")
-    private String _tenantAdminUserName;
+    @Value("${tenant.admin.user.name.prefix}")
+    private String _tenantAdminUserNamePrefix;
+    @Value("${client.name}")
+    private String _clientName;
+    @Value("${client.secret}")
+    private String _clientSecret;
     
     public String getGaiaUrl() {
         
         return _gaiaUrl;
     }
     
-    public String getTenantAdminUserName() {
+    public String getTenantAdminUserNamePrefix() {
         
-        return _tenantAdminUserName;
+        return _tenantAdminUserNamePrefix;
+    }
+    
+    public String getClientName() {
+        
+        return _clientName;
+    }
+    
+    public String getClientSecret() {
+        
+        return _clientSecret;
     }
 }

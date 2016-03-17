@@ -45,4 +45,24 @@ public class RestClient {
         
         return ret;
     }
+    
+    public static Response get(String url) {
+        
+        Response ret;
+        try {
+            String log = String.format("HTTP POST, URL: %s", url);
+            _logger.debug(log);
+            Request request = new Request.Builder().url(url).get().build();
+            ret = _client.newCall(request).execute();
+            if (!ret.isSuccessful()) {
+                String error = String.format("Unexpected code: %s, %s", ret, log);
+                _logger.error(error);
+                throw new RuntimeException(error);
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        return ret;
+    }
 }

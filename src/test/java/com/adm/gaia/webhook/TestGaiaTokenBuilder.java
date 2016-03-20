@@ -12,7 +12,7 @@ public class TestGaiaTokenBuilder extends GaiaTestCase {
     @Test
     public void testBuild() {
 
-        String build = _gaiaTokenBuilder.build();
-        Assert.assertNotNull(build);
+        String token = _gaiaTokenBuilder.build();
+        Assert.assertNotNull(token);
     }
 }

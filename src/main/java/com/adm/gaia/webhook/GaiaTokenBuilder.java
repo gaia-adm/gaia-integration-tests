@@ -40,18 +40,19 @@ public class GaiaTokenBuilder {
                             getClientId(),
                             _config.getClientSecret());
             Response response = RestClient.post(url);
-            ret = response.toString();
-            _logger.debug(response.toString());
+            JSONObject jsonObject = new JSONObject(response.body().string());
+            _logger.debug(jsonObject.toString());
+            ret = jsonObject.getString("access_token");
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
-                    "Failed to create client, URL: %s",
+                    "Failed to create token, URL: %s",
                     url), ex);
         }
 
         return ret;
     }
 
-    private void createClient(String tenantId) {
+    private void createClient(long tenantId) {
 
         String url = null, body = null;
         try {
@@ -67,7 +68,7 @@ public class GaiaTokenBuilder {
         }
     }
 
-    private String createTenant() {
+    private long createTenant() {
 
         String url = null, body = null;
         try {
@@ -85,7 +86,7 @@ public class GaiaTokenBuilder {
         return getCreatedTenant();
     }
 
-    private String getCreatedTenant() {
+    private long getCreatedTenant() {
 
         String url = null;
         try {
@@ -94,8 +95,9 @@ public class GaiaTokenBuilder {
                             + String.format(
                             RestConstants.GET_TENANT_SUFFIX_FORMAT,
                             getTenantAdminUserName());
+            JSONObject jsonObject = new JSONObject(RestClient.get(url).body().string());
 
-            return RestClient.get(url).body().string();
+            return jsonObject.getLong("tenantId");
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to get tenant id, URL: %s", url), ex);
         }
@@ -111,7 +113,7 @@ public class GaiaTokenBuilder {
         if (_admin == null) {
             _admin =
                     String.format(
-                            "%s.%s",
+                            "%s_%s",
                             _config.getTenantAdminUserNamePrefix(),
                             UUID.randomUUID());
         }
@@ -124,7 +126,7 @@ public class GaiaTokenBuilder {
         if (_clientId == null) {
             _clientId =
                     String.format(
-                            "%s.%s",
+                            "%s_%s",
                             _config.getClientName(),
                             UUID.randomUUID());
         }
@@ -132,7 +134,7 @@ public class GaiaTokenBuilder {
         return _clientId;
     }
 
-    private String getJsonBodyCreateClient(String tenantId) {
+    private String getJsonBodyCreateClient(long tenantId) {
 
         return new JSONObject().
                 put("client_id", getClientId()).

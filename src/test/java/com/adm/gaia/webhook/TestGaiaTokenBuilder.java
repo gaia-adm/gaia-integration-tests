@@ -5,14 +5,15 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestGaiaTokenBuilder extends GaiaTestCase {
-
+    
     @Autowired
     private GaiaTokenBuilder _gaiaTokenBuilder;
-
+    
     @Test
-    public void testBuild() {
-
+    public void testBuildGaiaAccessToken() {
+        
         String token = _gaiaTokenBuilder.build();
-        Assert.assertNotNull(token);
+        Assert.assertNotNull(token, "Null token");
+        Assert.assertFalse(token.isEmpty(), "Empty token");
     }
 }

@@ -11,7 +11,8 @@ public class TestGaiaTokenBuilder extends GaiaTestCase {
 
     @Test
     public void testBuild() {
-        
-        Assert.assertEquals(_gaiaTokenBuilder.build(), "");
+
+        String build = _gaiaTokenBuilder.build();
+        Assert.assertNotNull(build);
     }
 }

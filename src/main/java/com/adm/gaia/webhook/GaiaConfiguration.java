@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class GaiaConfiguration {
     
-    @Value("${gaia.url}")
-    private String _gaiaUrl;
+    @Value("${gaia.sts.url}")
+    private String _gaiaSTSUrl;
+    @Value("${gaia.whs.url}")
+    private String _gaiaWHSUrl;
     @Value("${tenant.admin.user.name.prefix}")
     private String _tenantAdminUserNamePrefix;
     @Value("${client.name}")
@@ -15,9 +17,14 @@ public class GaiaConfiguration {
     @Value("${client.secret}")
     private String _clientSecret;
     
-    public String getGaiaUrl() {
+    public String getGaiaSTSUrl() {
         
-        return _gaiaUrl;
+        return _gaiaSTSUrl;
+    }
+
+    public String getGaiaWHSUrl() {
+
+        return _gaiaWHSUrl;
     }
     
     public String getTenantAdminUserNamePrefix() {

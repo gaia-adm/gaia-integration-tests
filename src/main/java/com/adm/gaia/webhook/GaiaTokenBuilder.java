@@ -35,7 +35,7 @@ public class GaiaTokenBuilder {
 
         String url = null, ret = null;
         try {
-            url = _config.getGaiaUrl() +
+            url = _config.getGaiaSTSUrl() +
                     String.format(RestConstants.CREATE_TOKEN_SUFFIX_FORMAT,
                             getClientId(),
                             _config.getClientSecret());
@@ -56,7 +56,7 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
+            url = _config.getGaiaSTSUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
             body = getJsonBodyCreateClient(tenantId);
             Response response = RestClient.post(url, body, RestConstants.APPLICATION_JSON);
             _logger.debug(response.toString());
@@ -72,7 +72,7 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX;
+            url = _config.getGaiaSTSUrl() + RestConstants.CREATE_TENANT_SUFFIX;
             body = getJsonBodyCreateTenant();
             Response response = RestClient.post(url, body, RestConstants.APPLICATION_JSON);
             _logger.debug(response.toString());
@@ -91,7 +91,7 @@ public class GaiaTokenBuilder {
         String url = null;
         try {
             url =
-                    _config.getGaiaUrl()
+                    _config.getGaiaSTSUrl()
                             + String.format(
                             RestConstants.GET_TENANT_SUFFIX_FORMAT,
                             getTenantAdminUserName());

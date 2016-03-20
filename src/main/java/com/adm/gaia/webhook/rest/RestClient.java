@@ -45,6 +45,11 @@ public class RestClient {
         
         return ret;
     }
+
+    public static Response post(String url) {
+
+        return post(url, "", RestConstants.APPLICATION_JSON);
+    }
     
     public static Response get(String url) {
         

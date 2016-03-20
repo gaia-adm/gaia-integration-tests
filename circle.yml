@@ -1,0 +1,20 @@
+machine:
+    # pre section is a workaround for https://discuss.circleci.com/t/unable-to-use-docker-cp-but-it-worked-2-days-ago/1137/9
+  pre:
+    - echo 'DOCKER_OPTS="-s btrfs -e lxc -D --userland-proxy=false"' | sudo tee -a /etc/default/docker
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.1-circleci-cp-workaround'
+    - sudo chmod 0755 /usr/bin/docker
+  services:
+    - docker
+dependencies:
+  override:
+    - docker build -t gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM -f Dockerfile.build .
+    - docker create --name gaia-integration-tests-build-cont gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM
+    - docker cp gaia-integration-tests-build-cont:/src/gaia-integration-tests/target/surefire-reports/ $CIRCLE_TEST_REPORTS
+test:
+  override:
+    - /bin/true
+general:
+  branches:
+    only:
+      - master

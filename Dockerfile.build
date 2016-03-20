@@ -1,0 +1,12 @@
+FROM maven:3.3.3-jdk-8
+
+# Bundle app source
+COPY . /src
+
+# Set the working directory
+WORKDIR   /src
+
+# build.sh script is temporary workaround until Docker adds support for passing ENV variables
+# to docker build command to allow setting up proxy
+RUN chmod +x /src/build.sh
+RUN /src/build.sh

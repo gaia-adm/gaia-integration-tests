@@ -8,8 +8,6 @@ function setup_container()
     mvn clean install
 }
 
-setup_proxy
-
 if [ $? -eq 0 ];then
     setup_container
 else

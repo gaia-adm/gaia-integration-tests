@@ -10,19 +10,17 @@ import java.nio.file.Paths;
 public class TestWebhookGenerator extends GaiaTestCase {
     
     @Autowired
-    private GaiaTokenBuilder _gaiaTokenBuilder;
-    @Autowired
     private WebhookGenerator _webhookGenerator;
     
     @Test
     public void testGenerate() throws Exception {
-        
-        String token = _gaiaTokenBuilder.build();
-        String hookUrl = _webhookGenerator.generate(token, "github", "push");
+
+        _token = _gaiaTokenBuilder.build();
+        String hookUrl = _webhookGenerator.generate(_token, "github", "push");
         Assert.assertNotNull(hookUrl, "Null hookUrl");
         Assert.assertFalse(hookUrl.isEmpty(), "Empty hookUrl");
         String payload = new String(Files.readAllBytes(
                 Paths.get(getClass().getClassLoader().getResource("event_payload").toURI())));
-        _webhookGenerator.publish(token, hookUrl, payload);
+        _webhookGenerator.publish(_token, hookUrl, payload);
     }
 }

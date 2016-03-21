@@ -47,6 +47,21 @@ public class RestClient {
         return ret;
     }
 
+    public static Response delete(RestRequest restRequest) {
+
+        Response ret;
+        try {
+            String log = String.format("HTTP DELETE, URL: %s", restRequest.getUri());
+            _logger.debug(log);
+            Request request = new Request.Builder().url(restRequest.getUri()).delete().build();
+            ret = execute(log, request);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return ret;
+    }
+
     public static Response get(RestRequest restRequest) {
 
         Response ret;

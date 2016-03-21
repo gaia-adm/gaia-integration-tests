@@ -25,6 +25,7 @@ public class GaiaTokenBuilder {
     private GaiaConfiguration _config;
     private String _admin;
     private String _clientId;
+    private long _tenantId;
 
     public String build() {
 
@@ -32,6 +33,61 @@ public class GaiaTokenBuilder {
 
         return createToken();
     }
+
+    public void revokeToken(String token) {
+
+        String url = null;
+        try {
+            url =
+                    _config.getGaiaSTSUrl()
+                            + String.format(
+                            RestConstants.REVOKE_TOKEN_SUFFIX_FORMAT,
+                            token);
+            Response response = RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
+            _logger.debug(response.toString());
+        } catch (Exception ex) {
+            throw new RuntimeException(String.format("Failed to create token, URL: %s", url), ex);
+        }
+    }
+
+    public void clean() {
+
+        deleteClient();
+        deleteTenant();
+    }
+
+    private void deleteClient() {
+
+        String url = null;
+        try {
+            url = String.format("%s%s/%s",_config.getGaiaSTSUrl(), RestConstants.CREATE_CLIENT_SUFFIX, _clientId);
+            Response response = RestClient.delete(new RestRequest(url,
+                    RestConstants.APPLICATION_JSON));
+            _logger.debug(response.toString());
+        } catch (Exception ex) {
+            throw new RuntimeException(String.format(
+                    "Failed to delete client, URL: %s, body: %s",
+                    url), ex);
+        }
+    }
+
+    private void deleteTenant() {
+
+        String url = null;
+        try {
+            url = String.format("%s%s/%d",_config.getGaiaSTSUrl(),
+                    RestConstants.CREATE_TENANT_SUFFIX,
+                    _tenantId);
+            Response response = RestClient.delete(new RestRequest(url,
+                    RestConstants.APPLICATION_JSON));
+            _logger.debug(response.toString());
+        } catch (Exception ex) {
+            throw new RuntimeException(String.format(
+                    "Failed to delete tenant, URL: %s, body: %s",
+                    url), ex);
+        }
+    }
+
 
     private String createToken() {
 
@@ -90,8 +146,9 @@ public class GaiaTokenBuilder {
                     url,
                     body), ex);
         }
+        _tenantId = getCreatedTenant();
 
-        return getCreatedTenant();
+        return _tenantId;
     }
 
     private long getCreatedTenant() {

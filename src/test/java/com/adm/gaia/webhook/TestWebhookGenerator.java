@@ -2,7 +2,6 @@ package com.adm.gaia.webhook;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +11,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
     @Autowired
     private WebhookGenerator _webhookGenerator;
     
-    @Test
+    //@Test
     public void testGenerate() throws Exception {
 
         _token = _gaiaTokenBuilder.build();

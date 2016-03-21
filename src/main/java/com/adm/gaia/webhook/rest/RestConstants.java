@@ -1,7 +1,5 @@
 package com.adm.gaia.webhook.rest;
 
-import okhttp3.MediaType;
-
 public final class RestConstants {
     
     public static final String CREATE_TENANT_SUFFIX = "sts/tenant";
@@ -9,6 +7,8 @@ public final class RestConstants {
     public static final String CREATE_CLIENT_SUFFIX = "sts/oauth/client";
     public static final String CREATE_TOKEN_SUFFIX_FORMAT =
             "sts/oauth/token?grant_type=client_credentials&client_id=%s&client_secret=%s";
-    public static final String GENERATE_WEBHOOK = "whs/config";
-    public static final MediaType APPLICATION_JSON = MediaType.parse("application/json");
+    public static final String REVOKE_TOKEN_SUFFIX_FORMAT =
+            "sts/oauth/token/revoke?token=%s";
+    public static final String GENERATE_WEBHOOK = "wh/config";
+    public static final String APPLICATION_JSON = "application/json";
 }

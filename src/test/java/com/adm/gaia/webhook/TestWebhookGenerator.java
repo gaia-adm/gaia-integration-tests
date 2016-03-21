@@ -1,7 +1,11 @@
 package com.adm.gaia.webhook;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class TestWebhookGenerator extends GaiaTestCase {
     
@@ -11,9 +15,14 @@ public class TestWebhookGenerator extends GaiaTestCase {
     private WebhookGenerator _webhookGenerator;
     
     @Test
-    public void testGenerate() {
+    public void testGenerate() throws Exception {
         
         String token = _gaiaTokenBuilder.build();
-        _webhookGenerator.generate(token, "github", "push");
+        String hookUrl = _webhookGenerator.generate(token, "github", "push");
+        Assert.assertNotNull(hookUrl, "Null hookUrl");
+        Assert.assertFalse(hookUrl.isEmpty(), "Empty hookUrl");
+        String payload = new String(Files.readAllBytes(
+                Paths.get(getClass().getClassLoader().getResource("event_payload").toURI())));
+        _webhookGenerator.publish(token, hookUrl, payload);
     }
 }

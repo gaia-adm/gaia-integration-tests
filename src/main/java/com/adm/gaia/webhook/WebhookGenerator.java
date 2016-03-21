@@ -20,9 +20,9 @@ public class WebhookGenerator {
     @Autowired
     private GaiaConfiguration _config;
 
-    public void generate(String accessToken, String dataSource, String eventType) {
+    public String generate(String accessToken, String dataSource, String eventType) {
 
-        String url = null, body = null;
+        String url = null, body = null, ret = "";
         try {
             url = _config.getGaiaWHSUrl() + RestConstants.GENERATE_WEBHOOK;
             body = new JSONObject().
@@ -33,11 +33,31 @@ public class WebhookGenerator {
                     RestConstants.APPLICATION_JSON,
                     RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
             Response response = RestClient.post(restRequest);
-            _logger.debug(response.body().string());
+            JSONObject jsonObject = new JSONObject(response.body().string());
+            _logger.debug(jsonObject.toString());
+            ret = jsonObject.getString("hookUrl");
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to generate webhook, URL: %s",
                     url), ex);
+        }
+
+        return ret;
+    }
+
+    public void publish(String accessToken, String hookUrl, String event) {
+
+        try {
+            RestRequest restRequest = new RestRequest(hookUrl,
+                    event,
+                    RestConstants.APPLICATION_JSON,
+                    RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
+            Response response = RestClient.post(restRequest);
+            _logger.debug(response.toString());
+        } catch (Exception ex) {
+            throw new RuntimeException(String.format(
+                    "Failed to publish event to webhook, URL: %s",
+                    hookUrl), ex);
         }
     }
 }

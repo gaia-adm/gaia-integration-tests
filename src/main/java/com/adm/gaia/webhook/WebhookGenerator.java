@@ -2,6 +2,7 @@ package com.adm.gaia.webhook;
 
 import com.adm.gaia.webhook.rest.RestClient;
 import com.adm.gaia.webhook.rest.RestConstants;
+import com.adm.gaia.webhook.rest.RestRequest;
 import okhttp3.Response;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class WebhookGenerator {
             body = new JSONObject().
                     put("datasource", dataSource).
                     put("event", eventType).toString();
+            RestRequest restRequest = new RestRequest(url,
+                    body,
+                    RestConstants.APPLICATION_JSON,
+                    RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
+            RestClient.post(restRequest);
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to generate webhook, URL: %s",

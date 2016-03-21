@@ -1,12 +1,11 @@
 package com.adm.gaia.webhook.rest;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class RestClient {
 
@@ -53,7 +52,10 @@ public class RestClient {
         try {
             String log = String.format("HTTP DELETE, URL: %s", restRequest.getUri());
             _logger.debug(log);
-            Request request = new Request.Builder().url(restRequest.getUri()).delete().build();
+            Request request = new Request.Builder().
+                    url(restRequest.getUri()).
+                    headers(Headers.of(restRequest.getHeaders())).
+                    delete().build();
             ret = execute(log, request);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -68,7 +70,10 @@ public class RestClient {
         try {
             String log = String.format("HTTP GET, URL: %s", restRequest.getUri());
             _logger.debug(log);
-            Request request = new Request.Builder().url(restRequest.getUri()).get().build();
+            Request request = new Request.Builder().
+                    url(restRequest.getUri()).
+                    headers(Headers.of(restRequest.getHeaders())).
+                    get().build();
             ret = execute(log, request);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

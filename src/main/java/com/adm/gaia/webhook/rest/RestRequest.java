@@ -2,7 +2,6 @@ package com.adm.gaia.webhook.rest;
 
 import okhttp3.MediaType;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 

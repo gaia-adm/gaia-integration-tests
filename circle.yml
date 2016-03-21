@@ -12,6 +12,9 @@ dependencies:
     - docker create --name gaia-integration-tests-build-cont gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM
     - docker cp gaia-integration-tests-build-cont:/src/gaia-integration-tests/target/surefire-reports/ $CIRCLE_TEST_REPORTS
 test:
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
   override:
     - /bin/true
 general:

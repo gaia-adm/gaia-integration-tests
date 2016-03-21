@@ -10,7 +10,7 @@ dependencies:
   override:
     - docker build -t gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM -f Dockerfile.build .
     - docker create --name gaia-integration-tests-build-cont gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM
-    - docker cp gaia-integration-tests-build-cont:/src/gaia-integration-tests/target/surefire-reports/ $CIRCLE_TEST_REPORTS
+    - docker cp gaia-integration-tests-build-cont:/src/target/surefire-reports/ $CIRCLE_TEST_REPORTS
 test:
   override:
     - /bin/true

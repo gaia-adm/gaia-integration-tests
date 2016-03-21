@@ -5,6 +5,8 @@ import com.adm.gaia.webhook.rest.RestConstants;
 import com.adm.gaia.webhook.rest.RestRequest;
 import okhttp3.Response;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebhookGenerator {
 
+    private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     @Autowired
     private GaiaConfiguration _config;
 
@@ -29,7 +32,8 @@ public class WebhookGenerator {
                     body,
                     RestConstants.APPLICATION_JSON,
                     RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
-            RestClient.post(restRequest);
+            Response response = RestClient.post(restRequest);
+            _logger.debug(response.body().string());
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to generate webhook, URL: %s",

@@ -9,6 +9,6 @@ public final class RestConstants {
     public static final String CREATE_CLIENT_SUFFIX = "sts/oauth/client";
     public static final String CREATE_TOKEN_SUFFIX_FORMAT =
             "sts/oauth/token?grant_type=client_credentials&client_id=%s&client_secret=%s";
-    public static final String GENERATE_WEBHOOK = "whs/config";
+    public static final String GENERATE_WEBHOOK = "wh/config";
     public static final String APPLICATION_JSON = "application/json";
 }

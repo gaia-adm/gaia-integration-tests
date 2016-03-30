@@ -1,6 +1,6 @@
 {
   "_comment": "gaia-itest",
-  "Image": "gaia-itest",
+  "Image": "gaiaadm/gaia-integration-tests",
   "ExposedPorts": {
     "22/tcp": {}
   },

@@ -1,15 +1,22 @@
 FROM maven:3.3.3-jdk-8
 
+# use --build-arg option to pass system proxy name and port
+ARG PROXY_HOST
+ARG PROXY_PORT
+
 # Bundle app source
 COPY . /src
 
 # Set the working directory
-WORKDIR  /src
+WORKDIR /src
 
 LABEL test=
 LABEL test.run.interval=300000
 
-# build.sh script is temporary workaround until Docker adds support for passing ENV variables
-# to docker build command to allow setting up proxy
-RUN chmod +x /src/build.sh
-RUN /src/build.sh
+# RUN ["mvn","-DuseProxy=true","-DproxyHost=web-proxy.il.hpecorp.net","-DproxyPort=8080","clean","install"]
+# run maven verify
+RUN if [ -z "$PROXY_HOST" ]; then \
+      mvn clean install ; \
+    else \
+      mvn -DuseProxy=true -DproxyHost=$PROXY_HOST -DproxyPort=$PROXY_PORT clean install ; \
+    fi

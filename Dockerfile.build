@@ -13,10 +13,5 @@ WORKDIR /src
 LABEL test=
 LABEL test.run.interval=300000
 
-# RUN ["mvn","-DuseProxy=true","-DproxyHost=web-proxy.il.hpecorp.net","-DproxyPort=8080","clean","install"]
-# run maven verify
-RUN if [ -z "$PROXY_HOST" ]; then \
-      mvn clean install ; \
-    else \
-      mvn -DuseProxy=true -DproxyHost=$PROXY_HOST -DproxyPort=$PROXY_PORT clean install ; \
-    fi
+RUN ["mvn","-DuseProxy=true","-DproxyHost=web-proxy.il.hpecorp.net","-DproxyPort=8080","clean","install"]
+

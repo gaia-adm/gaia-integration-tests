@@ -4,7 +4,10 @@ FROM maven:3.3.3-jdk-8
 COPY . /src
 
 # Set the working directory
-WORKDIR   /src
+WORKDIR  /src
+
+LABEL test=
+LABEL test.run.interval=300000
 
 # build.sh script is temporary workaround until Docker adds support for passing ENV variables
 # to docker build command to allow setting up proxy

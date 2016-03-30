@@ -1,9 +1,5 @@
 FROM maven:3.3.3-jdk-8
 
-# use --build-arg option to pass system proxy name and port
-ARG PROXY_HOST
-ARG PROXY_PORT
-
 # Bundle app source
 COPY . /src
 
@@ -13,5 +9,5 @@ WORKDIR /src
 LABEL test=
 LABEL test.run.interval=300000
 
-RUN ["mvn","-DuseProxy=true","-DproxyHost=web-proxy.il.hpecorp.net","-DproxyPort=8080","clean","install"]
+CMD ["mvn","clean","install"]
 

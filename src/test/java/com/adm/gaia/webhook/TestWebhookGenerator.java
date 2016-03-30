@@ -19,7 +19,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
         String hookUrl = _webhookGenerator.generate(_token, "github", "push");
         Assert.assertNotNull(hookUrl, "Null hookUrl");
         Assert.assertFalse(hookUrl.isEmpty(), "Empty hookUrl");
-        String httpHookUrl = hookUrl.replace("https", "https");
+        String httpHookUrl = hookUrl.replace("https", "http");
         String payload = new String(Files.readAllBytes(
                 Paths.get(getClass().getClassLoader().getResource("event_payload").toURI())));
         _webhookGenerator.publish(_token, httpHookUrl, payload);

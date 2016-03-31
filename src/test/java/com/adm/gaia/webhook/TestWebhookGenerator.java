@@ -38,7 +38,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
 
         SearchResponse response = new SearchQuery(_elasticSearchManagement, _indexPattern).
                 search("head_commit.message:Update README.md");
-        Assert.assertEquals(response.getHits().totalHits(), 1);
+        Assert.assertTrue(response.getHits().totalHits() > 0);
         String head_commit = response.getHits().getAt(0).getSource().get("head_commit").toString();
         Assert.assertTrue(head_commit.contains("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c"));
     }

@@ -12,6 +12,8 @@ public class GaiaConfiguration {
     private String _gaiaScheme;
     @Value("${gaia.host}")
     private String _gaiaHost;
+    @Value("${gaia.es.host}")
+    private String _gaiaESHost;
     @Value("${gaia.port}")
     private int _gaiaPort;
     @Value("${gaia.es.port}")
@@ -36,6 +38,11 @@ public class GaiaConfiguration {
     public String getGaiaHost() {
 
         return _gaiaHost;
+    }
+
+    public String getGaiaESHost() {
+
+        return _gaiaESHost;
     }
 
     public int getGaiaESPort() {

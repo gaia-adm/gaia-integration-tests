@@ -29,7 +29,7 @@ public class ElasticSearchManagement {
 
         try {
             _client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(_config.getGaiaHost()), _config.getGaiaESPort()));
+                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(_config.getGaiaESHost()), _config.getGaiaESPort()));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,7 @@ public class GaiaTestCase extends AbstractTestNGSpringContextTests {
     protected String _token = "";
 
     @AfterMethod
-    public void cleanup() {
+    protected void cleanup() {
 
         if (!StringUtils.isEmpty(_token)) {
             _gaiaTokenBuilder.revokeToken(_token);

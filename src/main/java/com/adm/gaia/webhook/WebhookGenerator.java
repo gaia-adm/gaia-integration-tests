@@ -24,7 +24,7 @@ public class WebhookGenerator {
 
         String url = null, body = null, ret = "";
         try {
-            url = _config.getGaiaWHSUrl() + RestConstants.GENERATE_WEBHOOK;
+            url = _config.getGaiaUrl() + RestConstants.GENERATE_WEBHOOK;
             body = new JSONObject().
                     put("datasource", dataSource).
                     put("event", eventType).toString();
@@ -36,6 +36,7 @@ public class WebhookGenerator {
             JSONObject jsonObject = new JSONObject(response.body().string());
             _logger.debug(jsonObject.toString());
             ret = jsonObject.getString("hookUrl");
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to generate webhook, URL: %s",
@@ -54,6 +55,7 @@ public class WebhookGenerator {
                     RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
             Response response = RestClient.post(restRequest);
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to publish event to webhook, URL: %s",

@@ -8,6 +8,7 @@ WORKDIR /src
 
 LABEL test=
 LABEL test.run.interval=300000
+LABEL test.results=/src/target
 
 CMD ["mvn","clean","install"]
 

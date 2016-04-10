@@ -5,10 +5,11 @@ COPY . /src
 
 # Set the working directory
 WORKDIR /src
+RUN mkdir /src/target
 
 LABEL test=
 LABEL test.run.interval=300000
-LABEL test.results=/src
+LABEL test.results=/src/target
 
 CMD ["mvn","clean","install"]
 

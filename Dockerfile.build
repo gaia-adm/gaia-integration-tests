@@ -8,7 +8,7 @@ WORKDIR /src
 
 LABEL test=
 LABEL test.run.interval=300000
-LABEL test.results=/src
+LABEL test.results=~/gaia-integration-tests
 
 CMD ["mvn","clean","install"]
 

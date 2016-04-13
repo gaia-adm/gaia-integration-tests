@@ -12,9 +12,9 @@ dependencies:
     # download update_service script
     - curl -LO https://raw.githubusercontent.com/gaia-adm/gaia-fleet/master/update_service.sh && chmod +x update_service.sh
   override:
-    - docker build -t gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM -f Dockerfile.build .
-    - docker create --name gaia-integration-tests-build-cont gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM
-    #- docker cp gaia-integration-tests-build-cont:/src/target/surefire-reports/ $CIRCLE_TEST_REPORTS
+    - docker build -t gaiaadm/gaia-integration-tests -f Dockerfile.build .
+    - docker tag gaiaadm/gaia-integration-tests gaiaadm/gaia-integration-tests:$CIRCLE_BUILD_NUM-$CIRCLE_BRANCH
+    - docker tag gaiaadm/gaia-integration-tests gaiaadm/gaia-integration-tests:$CIRCLE_BRANCH
 test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/

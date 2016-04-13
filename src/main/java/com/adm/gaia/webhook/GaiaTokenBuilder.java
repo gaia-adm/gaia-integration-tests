@@ -1,10 +1,9 @@
 package com.adm.gaia.webhook;
 
-import java.util.UUID;
-
+import com.adm.gaia.webhook.rest.RestClient;
+import com.adm.gaia.webhook.rest.RestConstants;
 import com.adm.gaia.webhook.rest.RestRequest;
 import okhttp3.Response;
-
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.adm.gaia.webhook.rest.RestClient;
-import com.adm.gaia.webhook.rest.RestConstants;
+import java.util.UUID;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -39,12 +37,13 @@ public class GaiaTokenBuilder {
         String url = null;
         try {
             url =
-                    _config.getGaiaSTSUrl()
+                    _config.getGaiaUrl()
                             + String.format(
                             RestConstants.REVOKE_TOKEN_SUFFIX_FORMAT,
                             token);
             Response response = RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to create token, URL: %s", url), ex);
         }
@@ -60,10 +59,11 @@ public class GaiaTokenBuilder {
 
         String url = null;
         try {
-            url = String.format("%s%s/%s",_config.getGaiaSTSUrl(), RestConstants.CREATE_CLIENT_SUFFIX, _clientId);
+            url = String.format("%s%s/%s",_config.getGaiaUrl(), RestConstants.CREATE_CLIENT_SUFFIX, _clientId);
             Response response = RestClient.delete(new RestRequest(url,
                     RestConstants.APPLICATION_JSON));
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to delete client, URL: %s, body: %s",
@@ -75,12 +75,13 @@ public class GaiaTokenBuilder {
 
         String url = null;
         try {
-            url = String.format("%s%s/%d",_config.getGaiaSTSUrl(),
+            url = String.format("%s%s/%d",_config.getGaiaUrl(),
                     RestConstants.CREATE_TENANT_SUFFIX,
                     _tenantId);
             Response response = RestClient.delete(new RestRequest(url,
                     RestConstants.APPLICATION_JSON));
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to delete tenant, URL: %s, body: %s",
@@ -94,7 +95,7 @@ public class GaiaTokenBuilder {
         String url = null, ret = null;
         try {
             url =
-                    _config.getGaiaSTSUrl()
+                    _config.getGaiaUrl()
                             + String.format(
                             RestConstants.CREATE_TOKEN_SUFFIX_FORMAT,
                             getClientId(),
@@ -103,6 +104,7 @@ public class GaiaTokenBuilder {
             JSONObject jsonObject = new JSONObject(response.body().string());
             _logger.debug(jsonObject.toString());
             ret = jsonObject.getString("access_token");
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to create token, URL: %s", url), ex);
         }
@@ -114,13 +116,14 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaSTSUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
+            url = _config.getGaiaUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
             body = getJsonBodyCreateClient(tenantId);
             Response response = RestClient.post(new RestRequest(url,
                     body,
                     RestConstants.APPLICATION_JSON,
                     RestConstants.APPLICATION_JSON));
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to create client, URL: %s, body: %s",
@@ -133,13 +136,14 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaSTSUrl() + RestConstants.CREATE_TENANT_SUFFIX;
+            url = _config.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX;
             body = getJsonBodyCreateTenant();
             Response response = RestClient.post(new RestRequest(url,
                     body,
                     RestConstants.APPLICATION_JSON,
                     RestConstants.APPLICATION_JSON));
             _logger.debug(response.toString());
+            response.body().close();
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "Failed to create tenant, URL: %s, body: %s",
@@ -156,7 +160,7 @@ public class GaiaTokenBuilder {
         String url = null;
         try {
             url =
-                    _config.getGaiaSTSUrl()
+                    _config.getGaiaUrl()
                             + String.format(
                             RestConstants.GET_TENANT_SUFFIX_FORMAT,
                             getTenantAdminUserName());

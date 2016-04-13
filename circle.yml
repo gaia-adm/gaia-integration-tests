@@ -7,6 +7,10 @@ machine:
   services:
     - docker
 dependencies:
+  pre:
+    - sudo apt-get update && sudo apt-get install jq openssl curl
+    # download update_service script
+    - curl -LO https://raw.githubusercontent.com/gaia-adm/gaia-fleet/master/update_service.sh && chmod +x update_service.sh
   override:
     - docker build -t gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM -f Dockerfile.build .
     - docker create --name gaia-integration-tests-build-cont gaiaadm/gaia-integration-tests-build-img:$CIRCLE_BUILD_NUM
@@ -17,6 +21,13 @@ test:
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
   override:
     - /bin/true
+deployment:
+  continuous:
+    branch: [master, develop, /feature_.*/]
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push gaiaadm/gaia-integration-tests
+      - ./update_service.sh -t $CIRCLE_BRANCH -b $CIRCLE_BUILD_NUM -f gaia-integration-tests.service -n gaia-integration-tests
 general:
   branches:
     only:

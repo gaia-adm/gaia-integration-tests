@@ -20,9 +20,9 @@ public class RestClient {
                         TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
     }
 
-    public static Response post(RestRequest restRequest) {
+    public static String post(RestRequest restRequest) {
 
-        Response ret;
+        Response response;
         try {
             String log =
                     String.format(
@@ -38,15 +38,15 @@ public class RestClient {
                             post(RequestBody.create(restRequest.getRequestMediaType(),
                                     restRequest.getEntity().toString())).
                             build();
-            ret = execute(log, request);
+            response = execute(log, request);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return response.body().toString();
     }
 
-    public static Response delete(RestRequest restRequest) {
+    public static String delete(RestRequest restRequest) {
 
         Response ret;
         try {
@@ -61,10 +61,10 @@ public class RestClient {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return ret.body().toString();
     }
 
-    public static Response get(RestRequest restRequest) {
+    public static String get(RestRequest restRequest) {
 
         Response ret;
         try {
@@ -79,7 +79,7 @@ public class RestClient {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return ret.body().toString();
     }
 
     private static Response execute(String log, Request request) throws IOException {

@@ -20,9 +20,10 @@ public class RestClient {
                         TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
     }
 
-    public static Response post(RestRequest restRequest) {
+    public static RestResponse post(RestRequest restRequest) {
 
-        Response ret;
+        Response response;
+        String body;
         try {
             String log =
                     String.format(
@@ -38,17 +39,19 @@ public class RestClient {
                             post(RequestBody.create(restRequest.getRequestMediaType(),
                                     restRequest.getEntity().toString())).
                             build();
-            ret = execute(log, request);
+            response = execute(log, request);
+            body = response.body().string();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return new RestResponse(response.toString(), body);
     }
 
-    public static Response delete(RestRequest restRequest) {
+    public static RestResponse delete(RestRequest restRequest) {
 
-        Response ret;
+        Response response;
+        String body;
         try {
             String log = String.format("HTTP DELETE, URL: %s", restRequest.getUri());
             _logger.debug(log);
@@ -56,17 +59,19 @@ public class RestClient {
                     url(restRequest.getUri()).
                     headers(Headers.of(restRequest.getHeaders())).
                     delete().build();
-            ret = execute(log, request);
+            response = execute(log, request);
+            body = response.body().string();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return new RestResponse(response.toString(), body);
     }
 
-    public static Response get(RestRequest restRequest) {
+    public static RestResponse get(RestRequest restRequest) {
 
-        Response ret;
+        Response response;
+        String body;
         try {
             String log = String.format("HTTP GET, URL: %s", restRequest.getUri());
             _logger.debug(log);
@@ -74,12 +79,13 @@ public class RestClient {
                     url(restRequest.getUri()).
                     headers(Headers.of(restRequest.getHeaders())).
                     get().build();
-            ret = execute(log, request);
+            response = execute(log, request);
+            body = response.body().string();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
-        return ret;
+        return new RestResponse(response.toString(), body);
     }
 
     private static Response execute(String log, Request request) throws IOException {

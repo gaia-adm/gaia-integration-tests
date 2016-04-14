@@ -10,5 +10,7 @@ LABEL test=
 LABEL test.run.interval=300000
 LABEL test.results=/src/results
 
+RUN ["mvn","clean","install"]
+
 CMD ["mvn","clean","install"]
 

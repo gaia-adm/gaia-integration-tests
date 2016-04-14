@@ -159,7 +159,7 @@ public class GaiaTokenBuilder {
                             RestConstants.GET_TENANT_SUFFIX_FORMAT,
                             getTenantAdminUserName());
             JSONObject jsonObject = new JSONObject(RestClient.
-                    get(new RestRequest(url, RestConstants.APPLICATION_JSON)));
+                    get(new RestRequest(url, RestConstants.APPLICATION_JSON)).getResponseBody());
             _logger.debug(jsonObject.toString());
 
             return jsonObject.getLong("tenantId");

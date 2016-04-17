@@ -8,7 +8,8 @@ WORKDIR /src
 
 LABEL test=
 LABEL test.run.interval=300000
-LABEL test.results=/src/results
+LABEL test.results.dir=/src/results
+LABEL test.results.file=TestSuite.txt
 
 RUN ["mvn","clean","install"]
 

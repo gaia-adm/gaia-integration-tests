@@ -7,8 +7,9 @@ COPY . /src
 WORKDIR /src
 
 LABEL test=
-LABEL test.run.interval=300000
+LABEL test.run.interval=900000
 LABEL test.results=/src/results
+LABEL test.publish.description="Gaia Integration Tests"
 
 RUN ["mvn","clean","install"]
 

@@ -33,6 +33,7 @@
                                 <copy todir="${basedir}/results">
                                     <fileset dir="${basedir}/target/surefire-reports" includes="**/*"/>
                                 </copy>
+                                <copy file="${basedir}/gaia-integration-test.log" tofile="${basedir}/results/gaia-integration-test.log"/>
                             </target>
                         </configuration>
                     </execution>

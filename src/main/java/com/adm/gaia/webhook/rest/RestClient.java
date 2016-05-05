@@ -90,14 +90,14 @@ public class RestClient {
 
     private static Response execute(String log, Request request) throws IOException {
 
-        Response ret;
-        ret = _client.newCall(request).execute();
+        Response ret = _client.newCall(request).execute();
         if (!ret.isSuccessful()) {
             String error = String.format("Unexpected code: %d, %s, %s", ret.code(),
                     ret.body().string(), log);
             _logger.error(error);
             throw new RuntimeException(error);
         }
+
         return ret;
     }
 }

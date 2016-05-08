@@ -21,6 +21,8 @@ public class GaiaTokenBuilder {
     private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     @Autowired
     private GaiaConfiguration _config;
+    @Autowired
+    private GaiaUrlContainer _urlContainer;
     private String _admin;
     private String _clientId;
     private long _tenantId;
@@ -37,7 +39,7 @@ public class GaiaTokenBuilder {
         String url = null;
         try {
             url =
-                    _config.getGaiaUrl()
+                    _urlContainer.getGaiaUrl()
                             + String.format(
                             RestConstants.REVOKE_TOKEN_SUFFIX_FORMAT,
                             token);
@@ -58,14 +60,11 @@ public class GaiaTokenBuilder {
 
         String url = null;
         try {
-            url = String.format("%s%s/%s",_config.getGaiaUrl(), RestConstants.CREATE_CLIENT_SUFFIX, _clientId);
-            RestResponse response = RestClient.delete(new RestRequest(url,
-                    RestConstants.APPLICATION_JSON));
+            url = String.format("%s%s/%s",_urlContainer.getGaiaUrl(), RestConstants.CREATE_CLIENT_SUFFIX, _clientId);
+            RestResponse response = RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format(
-                    "Failed to delete client, URL: %s, body: %s",
-                    url), ex);
+            throw new RuntimeException(String.format("Failed to delete client, URL: %s", url), ex);
         }
     }
 
@@ -73,16 +72,14 @@ public class GaiaTokenBuilder {
 
         String url = null;
         try {
-            url = String.format("%s%s/%d",_config.getGaiaUrl(),
+            url = String.format("%s%s/%d",_urlContainer.getGaiaUrl(),
                     RestConstants.CREATE_TENANT_SUFFIX,
                     _tenantId);
             RestResponse response = RestClient.delete(new RestRequest(url,
                     RestConstants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format(
-                    "Failed to delete tenant, URL: %s, body: %s",
-                    url), ex);
+            throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url), ex);
         }
     }
 
@@ -92,7 +89,7 @@ public class GaiaTokenBuilder {
         String url = null, ret = null;
         try {
             url =
-                    _config.getGaiaUrl()
+                    _urlContainer.getGaiaUrl()
                             + String.format(
                             RestConstants.CREATE_TOKEN_SUFFIX_FORMAT,
                             getClientId(),
@@ -112,7 +109,7 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
+            url = _urlContainer.getGaiaUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
             body = getJsonBodyCreateClient(tenantId);
             RestResponse response = RestClient.post(new RestRequest(url,
                     body,
@@ -131,7 +128,7 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _config.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX;
+            url = _urlContainer.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX;
             body = getJsonBodyCreateTenant();
             RestResponse response = RestClient.post(new RestRequest(url,
                     body,
@@ -154,7 +151,7 @@ public class GaiaTokenBuilder {
         String url = null;
         try {
             url =
-                    _config.getGaiaUrl()
+                    _urlContainer.getGaiaUrl()
                             + String.format(
                             RestConstants.GET_TENANT_SUFFIX_FORMAT,
                             getTenantAdminUserName());

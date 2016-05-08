@@ -1,19 +1,20 @@
 package com.adm.gaia.webhook;
 
-import okhttp3.HttpUrl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 @Component
 public class GaiaConfiguration {
-
+    
     @Value("${gaia.scheme}")
     private String _gaiaScheme;
+    @Value("${gaia.es.scheme}")
+    private String _gaiaESScheme;
     @Value("${gaia.host}")
     private String _gaiaHost;
     @Value("${gaia.es.host}")
     private String _gaiaESHost;
+    
     @Value("${gaia.port}")
     private int _gaiaPort;
     @Value("${gaia.es.port}")
@@ -24,29 +25,34 @@ public class GaiaConfiguration {
     private String _clientName;
     @Value("${client.secret}")
     private String _clientSecret;
-    private String _gaiaUrl;
-
-    public String getGaiaUrl() {
-
-        if (StringUtils.isEmpty(_gaiaUrl)) {
-            buildGaiaUrl();
-        }
-
-        return _gaiaUrl;
+    
+    public String getGaiaScheme() {
+        
+        return _gaiaScheme;
     }
-
+    
     public String getGaiaHost() {
-
+        
         return _gaiaHost;
     }
-
+    
+    public int getGaiaPort() {
+        
+        return _gaiaPort;
+    }
+    
+    public String getGaiaESScheme() {
+        
+        return _gaiaESScheme;
+    }
+    
     public String getGaiaESHost() {
-
+        
         return _gaiaESHost;
     }
-
+    
     public int getGaiaESPort() {
-
+        
         return _gaiaESPort;
     }
     
@@ -63,14 +69,5 @@ public class GaiaConfiguration {
     public String getClientSecret() {
         
         return _clientSecret;
-    }
-
-    private void buildGaiaUrl() {
-
-        _gaiaUrl = new HttpUrl.Builder().
-                scheme(_gaiaScheme).
-                host(_gaiaHost).
-                port(_gaiaPort).
-                build().toString();
     }
 }

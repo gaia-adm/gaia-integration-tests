@@ -10,7 +10,7 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.5</maven.compiler.plugin.version>
         <jdk.version>1.8</jdk.version>
         <logback.version>1.1.6</logback.version>
         <es.version>2.1.0</es.version>
@@ -18,6 +18,15 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>

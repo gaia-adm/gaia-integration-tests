@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GaiaConfiguration {
-    
+
+    @Value("${gaia.etcd.url}")
+    private String _gaiaEtcdUrl;
     @Value("${gaia.scheme}")
     private String _gaiaScheme;
     @Value("${gaia.es.scheme}")
@@ -19,13 +21,18 @@ public class GaiaConfiguration {
     private int _gaiaPort;
     @Value("${gaia.es.port}")
     private int _gaiaESPort;
-    @Value("${tenant.admin.user.name.prefix}")
-    private String _tenantAdminUserNamePrefix;
+    @Value("${tenant.admin.user.name}")
+    private String _tenantAdminUserName;
     @Value("${client.name}")
     private String _clientName;
     @Value("${client.secret}")
     private String _clientSecret;
-    
+
+    public String get_gaiaEtcdUrl() {
+
+        return _gaiaEtcdUrl;
+    }
+
     public String getGaiaScheme() {
         
         return _gaiaScheme;
@@ -56,9 +63,9 @@ public class GaiaConfiguration {
         return _gaiaESPort;
     }
     
-    public String getTenantAdminUserNamePrefix() {
+    public String getTenantAdminUserName() {
         
-        return _tenantAdminUserNamePrefix;
+        return _tenantAdminUserName;
     }
     
     public String getClientName() {

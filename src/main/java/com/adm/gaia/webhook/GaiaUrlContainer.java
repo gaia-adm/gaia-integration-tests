@@ -31,6 +31,11 @@ public class GaiaUrlContainer {
         
         return _gaiaESUrl;
     }
+
+    public String getGaiaEtcdUrl() {
+
+        return _config.get_gaiaEtcdUrl();
+    }
     
     private String buildGaiaUrl() {
         

@@ -1,11 +1,11 @@
 package com.adm.gaia.util;
 
-import com.adm.gaia.webhook.GaiaConfiguration;
-import com.adm.gaia.webhook.GaiaUrlContainer;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestConstants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
+import com.adm.gaia.webhook.GaiaConfiguration;
+import com.adm.gaia.webhook.GaiaUrlContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +54,18 @@ public class GaiaCleaner {
 
         String url = null;
         try {
-            url =
-                    String.format(
-                            "%s%s/%s",
-                            _urlContainer.getGaiaUrl(),
-                            RestConstants.CREATE_CLIENT_SUFFIX,
-                            _config.getClientName());
-            RestResponse response =
+            String clientName = _config.getClientName();
+            url = String.format("%s%s/%s",
+                    _urlContainer.getGaiaUrl(),
+                    RestConstants.CREATE_CLIENT_SUFFIX,
+                    clientName);
+            RestResponse
+                    response =
                     RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
-            _logger.debug(response.getResponseMessage());
+            _logger.debug(String.format(
+                    "Client name: %s deleted. %s",
+                    clientName,
+                    response.getResponseMessage()));
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to delete client, URL: %s", url), ex);
         }
@@ -72,15 +75,15 @@ public class GaiaCleaner {
 
         String url = null;
         try {
-            url =
-                    String.format(
-                            "%s%s/%d",
-                            _urlContainer.getGaiaUrl(),
-                            RestConstants.CREATE_TENANT_SUFFIX,
-                            _tenant.getId());
-            RestResponse response =
-                    RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
-            _logger.debug(response.getResponseMessage());
+            long tenantId = _tenant.getId();
+            if(tenantId > 0) {
+                url = String.format("%s%s/%d",
+                        _urlContainer.getGaiaUrl(),
+                        RestConstants.CREATE_TENANT_SUFFIX,
+                        tenantId);
+                RestResponse response = RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
+                _logger.debug(String.format("Tenant ID: %d deleted. %s", tenantId, response.getResponseMessage()));
+            }
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url), ex);
         }

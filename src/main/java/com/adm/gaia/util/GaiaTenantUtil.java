@@ -1,11 +1,11 @@
 package com.adm.gaia.util;
 
-import com.adm.gaia.webhook.GaiaConfiguration;
-import com.adm.gaia.webhook.GaiaUrlContainer;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestConstants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
+import com.adm.gaia.webhook.GaiaConfiguration;
+import com.adm.gaia.webhook.GaiaUrlContainer;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,7 @@ public class GaiaTenantUtil {
                             RestConstants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format(
-                    "Failed to create tenant, URL: %s, body: %s",
+            throw new RuntimeException(String.format("Failed to create tenant, URL: %s, body: %s",
                     url,
                     body), ex);
         }
@@ -48,21 +47,24 @@ public class GaiaTenantUtil {
 
     public long getId() {
 
+        long ret = -1;
         String url = null;
         try {
             url =
                     _urlContainer.getGaiaUrl()
                     + String.format(RestConstants.GET_TENANT_SUFFIX_FORMAT, getTenantAdmin());
-            JSONObject
-                    jsonObject =
-                    new JSONObject(RestClient.get(new RestRequest(url,
-                            RestConstants.APPLICATION_JSON)).getResponseBody());
-            _logger.debug(jsonObject.toString());
-
-            return jsonObject.getLong("tenantId");
+            String body =
+                    RestClient.get(new RestRequest(
+                            url,
+                            RestConstants.APPLICATION_JSON)).getResponseBody();
+            if(!"null".equals(body)) {
+                ret = new JSONObject(body).getLong("tenantId");
+            }
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to get tenant id, URL: %s", url), ex);
         }
+
+        return ret;
     }
 
     private String getJsonBodyCreateTenant() {

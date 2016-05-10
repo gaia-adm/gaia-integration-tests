@@ -34,7 +34,7 @@ public class GaiaUrlContainer {
 
     public String getGaiaEtcdUrl() {
 
-        return _config.get_gaiaEtcdUrl();
+        return _config.getGaiaEtcdUrl();
     }
     
     private String buildGaiaUrl() {

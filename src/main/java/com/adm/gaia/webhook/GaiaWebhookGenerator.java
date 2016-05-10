@@ -11,11 +11,8 @@ import com.adm.gaia.webhook.rest.RestConstants;
 import com.adm.gaia.webhook.rest.RestRequest;
 import com.adm.gaia.webhook.rest.RestResponse;
 
-/**
- * Created by kornfeld on 20/03/2016.
- */
 @Component
-public class WebhookGenerator {
+public class GaiaWebhookGenerator {
     
     private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     @Autowired

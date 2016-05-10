@@ -8,6 +8,7 @@ public class GaiaConfiguration {
 
     @Value("${gaia.etcd.url}")
     private String _gaiaEtcdUrl;
+
     @Value("${gaia.scheme}")
     private String _gaiaScheme;
     @Value("${gaia.es.scheme}")
@@ -28,7 +29,7 @@ public class GaiaConfiguration {
     @Value("${client.secret}")
     private String _clientSecret;
 
-    public String get_gaiaEtcdUrl() {
+    public String getGaiaEtcdUrl() {
 
         return _gaiaEtcdUrl;
     }

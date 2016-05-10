@@ -22,9 +22,9 @@ import com.adm.gaia.webhook.GaiaConfiguration;
 public class ElasticSearchManagement {
     
     private static final Logger _logger = LoggerFactory.getLogger(ElasticSearchManagement.class);
-    
-    @Autowired
-    private GaiaConfiguration _config;
+
+        @Autowired
+        private GaiaConfiguration _config;
     private Client _client;
     
     private void init() {

@@ -1,4 +1,4 @@
-package com.adm.gaia.webhook.rest;
+package com.adm.gaia.rest;
 
 /**
  * Created by kornfeld on 14/04/2016.

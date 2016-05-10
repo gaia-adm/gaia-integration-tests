@@ -2,10 +2,10 @@ package com.adm.gaia.util;
 
 import com.adm.gaia.webhook.GaiaConfiguration;
 import com.adm.gaia.webhook.GaiaUrlContainer;
-import com.adm.gaia.webhook.rest.RestClient;
-import com.adm.gaia.webhook.rest.RestConstants;
-import com.adm.gaia.webhook.rest.RestRequest;
-import com.adm.gaia.webhook.rest.RestResponse;
+import com.adm.gaia.rest.RestClient;
+import com.adm.gaia.rest.RestConstants;
+import com.adm.gaia.rest.RestRequest;
+import com.adm.gaia.rest.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

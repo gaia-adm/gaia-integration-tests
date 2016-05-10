@@ -1,4 +1,4 @@
-package com.adm.gaia.webhook.rest;
+package com.adm.gaia.rest;
 
 public final class RestConstants {
     

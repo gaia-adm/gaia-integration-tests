@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.adm.gaia.webhook.rest.RestClient;
-import com.adm.gaia.webhook.rest.RestConstants;
-import com.adm.gaia.webhook.rest.RestRequest;
-import com.adm.gaia.webhook.rest.RestResponse;
+import com.adm.gaia.rest.RestClient;
+import com.adm.gaia.rest.RestConstants;
+import com.adm.gaia.rest.RestRequest;
+import com.adm.gaia.rest.RestResponse;
 
 @Component
 public class GaiaWebhookGenerator {

@@ -25,7 +25,7 @@ public class GaiaUrlContainer {
     
     public String getGaiaESUrl() {
         
-        if (StringUtils.isEmpty(_gaiaUrl)) {
+        if (StringUtils.isEmpty(_gaiaESUrl)) {
             _gaiaESUrl = buildGaiaESUrl();
         }
         

@@ -1,1 +1,1 @@
-# gaia-integration-tests
+# Gaia Integration Tests

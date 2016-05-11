@@ -24,13 +24,11 @@ public class GaiaTokenBuilder {
     @Autowired
     private GaiaUrlContainer _urlContainer;
     @Autowired
-    private GaiaTenantUtil _tenant;
-    @Autowired
     private GaiaEtcd _etcd;
 
-    public String build() {
+    public String build(long tenantId) {
 
-        createClient(_tenant.create());
+        createClient(tenantId);
         String token = createToken();
         _etcd.putToken(token);
 

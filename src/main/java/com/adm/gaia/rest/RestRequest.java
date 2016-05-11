@@ -1,5 +1,6 @@
 package com.adm.gaia.rest;
 
+import com.adm.gaia.Constants;
 import okhttp3.MediaType;
 
 import java.util.HashMap;
@@ -16,9 +17,9 @@ public class RestRequest {
     private MediaType _responseMediaType;
     private Map<String, String> _headers = new HashMap<String, String>();
 
-    public RestRequest(String uri, String responseMediaType) {
+    public RestRequest(String uri) {
 
-        this(uri, "", responseMediaType, responseMediaType);
+        this(uri, "", Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
     }
 
     public RestRequest(String uri, Object entity, String mediaType, String responseMediaType) {

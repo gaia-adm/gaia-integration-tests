@@ -1,7 +1,8 @@
 package com.adm.gaia.util;
 
+import com.adm.gaia.Constants;
+import com.adm.gaia.elasticsearch.ElasticSearchUtil;
 import com.adm.gaia.rest.RestClient;
-import com.adm.gaia.rest.RestConstants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import com.adm.gaia.webhook.GaiaConfiguration;
@@ -26,18 +27,23 @@ public class GaiaCleaner {
 
     public void clean() {
 
+        long tenantId = _tenant.getId();
+        deleteESIndex(tenantId);
         deleteClient();
-        deleteTenant();
+        deleteTenant(tenantId);
         String token = _etcd.getToken();
         if (token != null && !token.isEmpty()) {
             deleteWebhook();
             revokeToken(token);
         }
-        deleteESIndex();
     }
 
-    private void deleteESIndex() {
+    private void deleteESIndex(long tenantId) {
 
+        String index = ElasticSearchUtil.buildIndex(tenantId);
+        String url = _urlContainer.getGaiaESUrl() + index;
+        RestClient.delete(new RestRequest(url));
+        _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
     }
 
     /**
@@ -57,13 +63,12 @@ public class GaiaCleaner {
             String clientName = _config.getClientName();
             url = String.format("%s%s/%s",
                     _urlContainer.getGaiaUrl(),
-                    RestConstants.CREATE_CLIENT_SUFFIX,
+                    Constants.CREATE_CLIENT_SUFFIX,
                     clientName);
             RestResponse
                     response =
-                    RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
-            _logger.debug(String.format(
-                    "Client name: %s deleted. %s",
+                    RestClient.delete(new RestRequest(url));
+            _logger.debug(String.format("Client name: %s deleted. %s",
                     clientName,
                     response.getResponseMessage()));
         } catch (Exception ex) {
@@ -71,18 +76,22 @@ public class GaiaCleaner {
         }
     }
 
-    private void deleteTenant() {
+    private void deleteTenant(long tenantId) {
 
         String url = null;
         try {
-            long tenantId = _tenant.getId();
-            if(tenantId > 0) {
+            if (tenantId > 0) {
                 url = String.format("%s%s/%d",
                         _urlContainer.getGaiaUrl(),
-                        RestConstants.CREATE_TENANT_SUFFIX,
+                        Constants.CREATE_TENANT_SUFFIX,
                         tenantId);
-                RestResponse response = RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
-                _logger.debug(String.format("Tenant ID: %d deleted. %s", tenantId, response.getResponseMessage()));
+                RestResponse
+                        response =
+                        RestClient.delete(new RestRequest(url));
+                _logger.debug(String.format(
+                        "Tenant ID: %d deleted. %s",
+                        tenantId,
+                        response.getResponseMessage()));
             }
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url), ex);
@@ -94,11 +103,10 @@ public class GaiaCleaner {
         String url = null;
         try {
             url =
-                    _urlContainer.getGaiaUrl()
-                    + String.format(RestConstants.REVOKE_TOKEN_SUFFIX_FORMAT, token);
-            RestResponse
-                    response =
-                    RestClient.delete(new RestRequest(url, RestConstants.APPLICATION_JSON));
+                    _urlContainer.getGaiaUrl() + String.format(
+                            Constants.REVOKE_TOKEN_SUFFIX_FORMAT,
+                            token);
+            RestResponse response = RestClient.delete(new RestRequest(url));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to delete token, URL: %s", url), ex);

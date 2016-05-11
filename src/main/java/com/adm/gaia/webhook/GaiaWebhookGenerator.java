@@ -1,7 +1,7 @@
 package com.adm.gaia.webhook;
 
 import com.adm.gaia.rest.RestClient;
-import com.adm.gaia.rest.RestConstants;
+import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ public class GaiaWebhookGenerator {
 
         String url = null, body = null, ret = "";
         try {
-            url = _urlContainer.getGaiaUrl() + RestConstants.GENERATE_WEBHOOK;
+            url = _urlContainer.getGaiaUrl() + Constants.GENERATE_WEBHOOK;
             body =
                     new JSONObject().put("datasource", dataSource).put("event",
                             eventType).toString();
@@ -53,7 +53,7 @@ public class GaiaWebhookGenerator {
 
         return new RestRequest(url,
                 body,
-                RestConstants.APPLICATION_JSON,
-                RestConstants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
+                Constants.APPLICATION_JSON,
+                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
     }
 }

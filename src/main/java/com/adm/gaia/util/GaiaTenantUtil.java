@@ -1,7 +1,7 @@
 package com.adm.gaia.util;
 
 import com.adm.gaia.rest.RestClient;
-import com.adm.gaia.rest.RestConstants;
+import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import com.adm.gaia.webhook.GaiaConfiguration;
@@ -25,14 +25,14 @@ public class GaiaTenantUtil {
 
         String url = null, body = null;
         try {
-            url = _urlContainer.getGaiaUrl() + RestConstants.CREATE_TENANT_SUFFIX;
+            url = _urlContainer.getGaiaUrl() + Constants.CREATE_TENANT_SUFFIX;
             body = getJsonBodyCreateTenant();
             RestResponse
                     response =
                     RestClient.post(new RestRequest(url,
                             body,
-                            RestConstants.APPLICATION_JSON,
-                            RestConstants.APPLICATION_JSON));
+                            Constants.APPLICATION_JSON,
+                            Constants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
             throw new RuntimeException(String.format("Failed to create tenant, URL: %s, body: %s",
@@ -52,11 +52,10 @@ public class GaiaTenantUtil {
         try {
             url =
                     _urlContainer.getGaiaUrl()
-                    + String.format(RestConstants.GET_TENANT_SUFFIX_FORMAT, getTenantAdmin());
+                    + String.format(Constants.GET_TENANT_SUFFIX_FORMAT, getTenantAdmin());
             String body =
                     RestClient.get(new RestRequest(
-                            url,
-                            RestConstants.APPLICATION_JSON)).getResponseBody();
+                            url)).getResponseBody();
             if(!"null".equals(body)) {
                 ret = new JSONObject(body).getLong("tenantId");
             }

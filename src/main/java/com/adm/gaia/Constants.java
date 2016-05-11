@@ -1,7 +1,10 @@
-package com.adm.gaia.rest;
+package com.adm.gaia;
 
-public final class RestConstants {
-    
+public final class Constants {
+
+    public static final String DATA_SOURCE = "gaia-itest";
+    public static final String EVENT_TYPE = "push";
+
     public static final String CREATE_TENANT_SUFFIX = "sts/tenant";
     public static final String GET_TENANT_SUFFIX_FORMAT = CREATE_TENANT_SUFFIX + "?user=%s";
     public static final String CREATE_CLIENT_SUFFIX = "sts/oauth/client";

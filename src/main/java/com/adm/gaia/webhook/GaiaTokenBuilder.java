@@ -1,11 +1,10 @@
 package com.adm.gaia.webhook;
 
 import com.adm.gaia.rest.RestClient;
-import com.adm.gaia.rest.RestConstants;
+import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import com.adm.gaia.util.GaiaEtcd;
-import com.adm.gaia.util.GaiaTenantUtil;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +40,13 @@ public class GaiaTokenBuilder {
         try {
             url =
                     _urlContainer.getGaiaUrl()
-                    + String.format(RestConstants.CREATE_TOKEN_SUFFIX_FORMAT,
+                    + String.format(
+                            Constants.CREATE_TOKEN_SUFFIX_FORMAT,
                             getClientName(),
                             _config.getClientSecret());
             RestResponse
                     response =
-                    RestClient.post(new RestRequest(url, RestConstants.APPLICATION_JSON));
+                    RestClient.post(new RestRequest(url));
             JSONObject jsonObject = new JSONObject(response.getResponseBody());
             _logger.debug(jsonObject.toString());
             ret = jsonObject.getString("access_token");
@@ -61,14 +61,14 @@ public class GaiaTokenBuilder {
 
         String url = null, body = null;
         try {
-            url = _urlContainer.getGaiaUrl() + RestConstants.CREATE_CLIENT_SUFFIX;
+            url = _urlContainer.getGaiaUrl() + Constants.CREATE_CLIENT_SUFFIX;
             body = getJsonBodyCreateClient(tenantId);
             RestResponse
                     response =
                     RestClient.post(new RestRequest(url,
                             body,
-                            RestConstants.APPLICATION_JSON,
-                            RestConstants.APPLICATION_JSON));
+                            Constants.APPLICATION_JSON,
+                            Constants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
             throw new RuntimeException(String.format(

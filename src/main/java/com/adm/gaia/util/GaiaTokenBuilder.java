@@ -1,8 +1,8 @@
 package com.adm.gaia.util;
 
+import com.adm.gaia.Constants;
 import com.adm.gaia.GaiaConfiguration;
 import com.adm.gaia.rest.RestClient;
-import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import org.json.JSONObject;
@@ -38,15 +38,10 @@ public class GaiaTokenBuilder {
 
         String url = null, ret = null;
         try {
-            url =
-                    _urlContainer.getGaiaUrl()
-                    + String.format(
-                            Constants.CREATE_TOKEN_SUFFIX_FORMAT,
-                            getClientName(),
-                            _config.getClientSecret());
-            RestResponse
-                    response =
-                    RestClient.post(new RestRequest(url));
+            url = _urlContainer.getGaiaUrl() + String.format(Constants.CREATE_TOKEN_SUFFIX_FORMAT,
+                    getClientName(),
+                    _config.getClientSecret());
+            RestResponse response = RestClient.post(new RestRequest(url));
             JSONObject jsonObject = new JSONObject(response.getResponseBody());
             _logger.debug(jsonObject.toString());
             ret = jsonObject.getString("access_token");
@@ -71,8 +66,7 @@ public class GaiaTokenBuilder {
                             Constants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format(
-                    "Failed to create client, URL: %s, body: %s",
+            throw new RuntimeException(String.format("Failed to create client, URL: %s, body: %s",
                     url,
                     body), ex);
         }
@@ -86,8 +80,7 @@ public class GaiaTokenBuilder {
     private String getJsonBodyCreateClient(long tenantId) {
 
         return new JSONObject().put("client_id", getClientName()).put("client_secret",
-                _config.getClientSecret()).put("scope", "read,write,trust").put(
-                "authorized_grant_types",
+                _config.getClientSecret()).put("scope", "read,write,trust").put("authorized_grant_types",
                 "client_credentials").put("authorities", "ROLE_APP").put("tenantId",
                 tenantId).toString();
     }

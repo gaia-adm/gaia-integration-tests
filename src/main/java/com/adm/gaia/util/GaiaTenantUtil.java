@@ -1,10 +1,10 @@
 package com.adm.gaia.util;
 
-import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.Constants;
+import com.adm.gaia.GaiaConfiguration;
+import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
-import com.adm.gaia.GaiaConfiguration;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,12 +50,11 @@ public class GaiaTenantUtil {
         String url = null;
         try {
             url =
-                    _urlContainer.getGaiaUrl()
-                    + String.format(Constants.GET_TENANT_SUFFIX_FORMAT, getTenantAdmin());
-            String body =
-                    RestClient.get(new RestRequest(
-                            url)).getResponseBody();
-            if(!"null".equals(body)) {
+                    _urlContainer.getGaiaUrl() + String.format(
+                            Constants.GET_TENANT_SUFFIX_FORMAT,
+                            getTenantAdmin());
+            String body = RestClient.get(new RestRequest(url)).getResponseBody();
+            if (!"null".equals(body)) {
                 ret = new JSONObject(body).getLong("tenantId");
             }
         } catch (Exception ex) {

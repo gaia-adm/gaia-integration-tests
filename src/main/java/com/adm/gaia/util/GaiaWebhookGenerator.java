@@ -1,7 +1,7 @@
 package com.adm.gaia.util;
 
-import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.Constants;
+import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
 import org.json.JSONObject;
@@ -43,8 +43,7 @@ public class GaiaWebhookGenerator {
             RestResponse response = RestClient.post(getRequest(accessToken, hookUrl, event));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format(
-                    "Failed to publish event to webhook, URL: %s",
+            throw new RuntimeException(String.format("Failed to publish event to webhook, URL: %s",
                     hookUrl), ex);
         }
     }
@@ -54,6 +53,8 @@ public class GaiaWebhookGenerator {
         return new RestRequest(url,
                 body,
                 Constants.APPLICATION_JSON,
-                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
+                Constants.APPLICATION_JSON).header(
+                "Authorization",
+                "Bearer " + accessToken);
     }
 }

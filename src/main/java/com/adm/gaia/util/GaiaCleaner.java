@@ -1,11 +1,11 @@
 package com.adm.gaia.util;
 
 import com.adm.gaia.Constants;
+import com.adm.gaia.GaiaConfiguration;
 import com.adm.gaia.elasticsearch.ElasticSearchUtil;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
-import com.adm.gaia.GaiaConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class GaiaCleaner {
             RestClient.delete(new RestRequest(url));
             _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
         } catch (Exception e) {
-            if(!e.getMessage().contains("index_not_found_exception")) {
+            if (!e.getMessage().contains("index_not_found_exception")) {
                 throw e;
             }
         }
@@ -70,9 +70,7 @@ public class GaiaCleaner {
                     _urlContainer.getGaiaUrl(),
                     Constants.CREATE_CLIENT_SUFFIX,
                     clientName);
-            RestResponse
-                    response =
-                    RestClient.delete(new RestRequest(url));
+            RestResponse response = RestClient.delete(new RestRequest(url));
             _logger.debug(String.format("Client name: %s deleted. %s",
                     clientName,
                     response.getResponseMessage()));
@@ -90,11 +88,8 @@ public class GaiaCleaner {
                         _urlContainer.getGaiaUrl(),
                         Constants.CREATE_TENANT_SUFFIX,
                         tenantId);
-                RestResponse
-                        response =
-                        RestClient.delete(new RestRequest(url));
-                _logger.debug(String.format(
-                        "Tenant ID: %d deleted. %s",
+                RestResponse response = RestClient.delete(new RestRequest(url));
+                _logger.debug(String.format("Tenant ID: %d deleted. %s",
                         tenantId,
                         response.getResponseMessage()));
             }
@@ -108,8 +103,7 @@ public class GaiaCleaner {
         String url = null;
         try {
             url =
-                    _urlContainer.getGaiaUrl() + String.format(
-                            Constants.REVOKE_TOKEN_SUFFIX_FORMAT,
+                    _urlContainer.getGaiaUrl() + String.format(Constants.REVOKE_TOKEN_SUFFIX_FORMAT,
                             token);
             RestResponse response = RestClient.delete(new RestRequest(url));
             _logger.debug(response.getResponseMessage());

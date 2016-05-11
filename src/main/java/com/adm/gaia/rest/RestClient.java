@@ -15,8 +15,7 @@ public class RestClient {
     static {
 
         _client =
-                new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(
-                        10,
+                new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10,
                         TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
     }
 
@@ -25,20 +24,17 @@ public class RestClient {
         Response response;
         String body;
         try {
-            String log =
-                    String.format(
-                            "HTTP POST, URL: %s, Body: %s, Media Type: %s",
-                            restRequest.getUri(),
-                            restRequest.getEntity(),
-                            restRequest.getRequestMediaType());
+            String log = String.format("HTTP POST, URL: %s, Body: %s, Media Type: %s",
+                    restRequest.getUri(),
+                    restRequest.getEntity(),
+                    restRequest.getRequestMediaType());
             _logger.debug(log);
-            Request request =
-                    new Request.Builder().
-                            url(restRequest.getUri()).
-                            headers(Headers.of(restRequest.getHeaders())).
-                            post(RequestBody.create(restRequest.getRequestMediaType(),
-                                    restRequest.getEntity().toString())).
-                            build();
+            Request request = new Request.Builder().
+                    url(restRequest.getUri()).
+                    headers(Headers.of(restRequest.getHeaders())).
+                    post(RequestBody.create(restRequest.getRequestMediaType(),
+                            restRequest.getEntity().toString())).
+                    build();
             response = execute(log, request);
             body = response.body().string();
         } catch (Exception ex) {
@@ -92,8 +88,12 @@ public class RestClient {
 
         Response ret = _client.newCall(request).execute();
         if (!ret.isSuccessful()) {
-            String error = String.format("Unexpected code: %d, %s, %s", ret.code(),
-                    ret.body().string(), log);
+            String
+                    error =
+                    String.format("Unexpected code: %d, %s, %s",
+                            ret.code(),
+                            ret.body().string(),
+                            log);
             _logger.error(error);
             throw new RuntimeException(error);
         }

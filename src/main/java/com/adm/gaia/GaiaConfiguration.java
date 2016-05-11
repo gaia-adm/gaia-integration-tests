@@ -17,7 +17,7 @@ public class GaiaConfiguration {
     private String _gaiaHost;
     @Value("${gaia.es.host}")
     private String _gaiaESHost;
-    
+
     @Value("${gaia.port}")
     private int _gaiaPort;
     @Value("${gaia.es.port}")
@@ -35,47 +35,47 @@ public class GaiaConfiguration {
     }
 
     public String getGaiaScheme() {
-        
+
         return _gaiaScheme;
     }
-    
+
     public String getGaiaHost() {
-        
+
         return _gaiaHost;
     }
-    
+
     public int getGaiaPort() {
-        
+
         return _gaiaPort;
     }
-    
+
     public String getGaiaESScheme() {
-        
+
         return _gaiaESScheme;
     }
-    
+
     public String getGaiaESHost() {
-        
+
         return _gaiaESHost;
     }
-    
+
     public int getGaiaESPort() {
-        
+
         return _gaiaESPort;
     }
-    
+
     public String getTenantAdminUserName() {
-        
+
         return _tenantAdminUserName;
     }
-    
+
     public String getClientName() {
-        
+
         return _clientName;
     }
-    
+
     public String getClientSecret() {
-        
+
         return _clientSecret;
     }
 }

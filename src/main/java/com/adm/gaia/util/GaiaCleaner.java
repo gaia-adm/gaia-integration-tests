@@ -42,8 +42,14 @@ public class GaiaCleaner {
 
         String index = ElasticSearchUtil.buildIndex(tenantId);
         String url = _urlContainer.getGaiaESUrl() + index;
-        RestClient.delete(new RestRequest(url));
-        _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
+        try {
+            RestClient.delete(new RestRequest(url));
+            _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
+        } catch (Exception e) {
+            if(!e.getMessage().contains("index_not_found_exception")) {
+                throw e;
+            }
+        }
     }
 
     /**
@@ -98,7 +104,7 @@ public class GaiaCleaner {
         }
     }
 
-    public void revokeToken(String token) {
+    private void revokeToken(String token) {
 
         String url = null;
         try {

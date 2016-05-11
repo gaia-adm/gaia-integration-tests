@@ -1,4 +1,4 @@
-package com.adm.gaia.webhook;
+package com.adm.gaia.util;
 
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.Constants;

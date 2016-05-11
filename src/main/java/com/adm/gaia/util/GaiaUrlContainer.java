@@ -1,5 +1,6 @@
-package com.adm.gaia.webhook;
+package com.adm.gaia.util;
 
+import com.adm.gaia.GaiaConfiguration;
 import okhttp3.HttpUrl;
 
 import org.springframework.beans.factory.annotation.Autowired;

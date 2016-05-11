@@ -1,10 +1,10 @@
-package com.adm.gaia.webhook;
+package com.adm.gaia.util;
 
+import com.adm.gaia.GaiaConfiguration;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
-import com.adm.gaia.util.GaiaEtcd;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

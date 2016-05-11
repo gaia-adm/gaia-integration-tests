@@ -2,7 +2,6 @@ package com.adm.gaia.util;
 
 import java.net.URI;
 
-import com.adm.gaia.webhook.GaiaUrlContainer;
 import mousio.etcd4j.EtcdClient;
 import mousio.etcd4j.responses.EtcdException;
 import mousio.etcd4j.transport.EtcdNettyClient;

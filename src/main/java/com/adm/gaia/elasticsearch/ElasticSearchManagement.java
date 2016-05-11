@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.adm.gaia.webhook.GaiaConfiguration;
+import com.adm.gaia.GaiaConfiguration;
 
 /**
  * Created by kornfeld on 31/03/2016.

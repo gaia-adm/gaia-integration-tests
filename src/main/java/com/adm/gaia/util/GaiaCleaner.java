@@ -32,7 +32,7 @@ public class GaiaCleaner {
         deleteTenant(tenantId);
         String token = _etcd.getToken();
         if (token != null && !token.isEmpty()) {
-            deleteWebhook();
+            deleteWebhooks(token);
             revokeToken(token);
         }
     }
@@ -57,7 +57,7 @@ public class GaiaCleaner {
      * Accept: application/json
      * Authorization: Bearer <accesstoken>
      */
-    private void deleteWebhook() {
+    private void deleteWebhooks(String token) {
 
     }
 

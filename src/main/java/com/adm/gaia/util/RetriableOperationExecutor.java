@@ -6,7 +6,7 @@ public class RetriableOperationExecutor {
 
     public static <TResult> TResult execute(
             Function<Void, TResult> delegate,
-            Function<Exception, Boolean> isValid,
+            Function<Exception, Boolean> ignore,
             int sleepTime,
             int retries) {
 
@@ -15,7 +15,7 @@ public class RetriableOperationExecutor {
             try {
                 return delegate.apply(null);
             } catch (Exception e) {
-                if (!isValid.apply(e)) {
+                if (!ignore.apply(e)) {
                     throw e;
                 }
                 if (count++ > retries) {

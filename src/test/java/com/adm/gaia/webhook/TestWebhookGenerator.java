@@ -49,7 +49,6 @@ public class TestWebhookGenerator extends GaiaTestCase {
 
         String index = ElasticSearchUtil.buildIndex(tenantId);
         String search = _esClient.search(index, "i_am_here_dexter_your_sister_dd");
-        System.out.println(new JSONObject(search).getJSONObject("hits").get("hits"));
         JSONArray hits = new JSONObject(search).getJSONObject("hits").getJSONArray("hits");
         Assert.assertEquals(hits.length(), 1);
         Assert.assertEquals(new JSONObject(hits.get(0).toString()).get("_index"), index);

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GaiaWebhookGenerator {
+public class GaiaWebhookUtil {
 
     private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     @Autowired
@@ -21,7 +21,7 @@ public class GaiaWebhookGenerator {
 
         String url = null, body = null, ret = "";
         try {
-            url = _urlContainer.getGaiaUrl() + Constants.GENERATE_WEBHOOK;
+            url = getWebhookUrl();
             body =
                     new JSONObject().put("datasource", dataSource).put("event",
                             eventType).toString();
@@ -46,6 +46,32 @@ public class GaiaWebhookGenerator {
             throw new RuntimeException(String.format("Failed to publish event to webhook, URL: %s",
                     hookUrl), ex);
         }
+    }
+
+    public String getTenantWebhooks(String accessToken) {
+
+        String url = null, ret = null;
+        try {
+            url = getWebhookUrl();
+            ret = RestClient.get(getRequest(accessToken, url, null)).getResponseBody();
+        } catch (Exception ex) {
+            _logger.error(String.format("Failed to get tenants' webhooks, URL: %s", url), ex);
+        }
+
+        return ret;
+    }
+
+    public void deleteTenantWebhooks(String accessToken) {
+
+        String webhooks = getTenantWebhooks(accessToken);
+        if (webhooks != null) {
+
+        }
+    }
+
+    private String getWebhookUrl() {
+
+        return _urlContainer.getGaiaUrl() + Constants.WEBHOOK_SUFFIX;
     }
 
     private RestRequest getRequest(String accessToken, String url, String body) {

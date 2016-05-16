@@ -23,6 +23,8 @@ public class GaiaCleaner {
     private GaiaEtcd _etcd;
     @Autowired
     private GaiaTenantUtil _tenant;
+    @Autowired
+    private GaiaWebhookUtil _webhook;
 
     public void clean() {
 
@@ -32,7 +34,7 @@ public class GaiaCleaner {
         deleteTenant(tenantId);
         String token = _etcd.getToken();
         if (token != null && !token.isEmpty()) {
-            deleteWebhooks(token);
+            _webhook.deleteTenantWebhooks(token);
             revokeToken(token);
         }
     }
@@ -49,16 +51,6 @@ public class GaiaCleaner {
                 throw e;
             }
         }
-    }
-
-    /**
-     * DELETE: https://webhook.mydomain.gaiahub.io/wh/config/webhook-token
-     * Content-Type: application/json
-     * Accept: application/json
-     * Authorization: Bearer <accesstoken>
-     */
-    private void deleteWebhooks(String token) {
-
     }
 
     private void deleteClient() {

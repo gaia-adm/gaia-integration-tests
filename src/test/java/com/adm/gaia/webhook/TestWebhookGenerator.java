@@ -6,7 +6,7 @@ import com.adm.gaia.elasticsearch.ElasticSearchUtil;
 import com.adm.gaia.util.GaiaCleaner;
 import com.adm.gaia.util.GaiaTenantUtil;
 import com.adm.gaia.util.GaiaTokenBuilder;
-import com.adm.gaia.util.GaiaWebhookGenerator;
+import com.adm.gaia.util.GaiaWebhookUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
     @Autowired
     private GaiaTokenBuilder _tokenBuilder;
     @Autowired
-    private GaiaWebhookGenerator _webhookGenerator;
+    private GaiaWebhookUtil _webhook;
     @Autowired
     private ElasticSearchHttpClient _esClient;
     @Autowired
@@ -41,7 +41,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
     @Test
     public void testGenerate() throws Exception {
 
-        long tenantId = generateWebhook();
+        long tenantId = publishData();
         validateTenantCreationOnElasticSearch(tenantId);
     }
 
@@ -54,17 +54,17 @@ public class TestWebhookGenerator extends GaiaTestCase {
         Assert.assertEquals(new JSONObject(hits.get(0).toString()).get("_index"), index);
     }
 
-    private long generateWebhook() throws IOException, URISyntaxException {
+    private long publishData() throws IOException, URISyntaxException {
 
         long tenantId = _tenant.create();
         String token = _tokenBuilder.build(tenantId);
         String
                 hookUrl =
-                _webhookGenerator.generate(token, Constants.DATA_SOURCE, Constants.EVENT_TYPE);
+                _webhook.generate(token, Constants.DATA_SOURCE, Constants.EVENT_TYPE);
         Assert.assertNotNull(hookUrl, "Null hookUrl");
         Assert.assertFalse(hookUrl.isEmpty(), "Empty hookUrl");
         String httpHookUrl = hookUrl.replace("https", "http");
-        _webhookGenerator.publish(token, httpHookUrl, getPayload());
+        _webhook.publish(token, httpHookUrl, getPayload());
 
         return tenantId;
     }

@@ -12,6 +12,6 @@ public final class Constants {
             CREATE_TOKEN_SUFFIX_FORMAT =
             "sts/oauth/token?grant_type=client_credentials&client_id=%s&client_secret=%s";
     public static final String REVOKE_TOKEN_SUFFIX_FORMAT = "sts/oauth/token/revoke?token=%s";
-    public static final String GENERATE_WEBHOOK = "wh/config";
+    public static final String WEBHOOK_SUFFIX = "wh/config";
     public static final String APPLICATION_JSON = "application/json";
 }

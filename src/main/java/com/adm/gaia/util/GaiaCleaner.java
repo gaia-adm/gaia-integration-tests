@@ -41,14 +41,16 @@ public class GaiaCleaner {
 
     private void deleteESIndex(long tenantId) {
 
-        String index = ElasticSearchUtil.buildIndex(tenantId);
-        String url = _urlContainer.getGaiaESUrl() + index;
-        try {
-            RestClient.delete(new RestRequest(url));
-            _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
-        } catch (Exception e) {
-            if (!e.getMessage().contains("index_not_found_exception")) {
-                throw e;
+        if (tenantId > 0) {
+            String index = ElasticSearchUtil.buildIndex(tenantId);
+            String url = _urlContainer.getGaiaESUrl() + index;
+            try {
+                RestClient.delete(new RestRequest(url));
+                _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
+            } catch (Exception e) {
+                if (!e.getMessage().contains("index_not_found_exception")) {
+                    throw e;
+                }
             }
         }
     }
@@ -73,20 +75,24 @@ public class GaiaCleaner {
 
     private void deleteTenant(long tenantId) {
 
-        String url = null;
-        try {
-            if (tenantId > 0) {
-                url = String.format("%s%s/%d",
-                        _urlContainer.getGaiaUrl(),
-                        Constants.CREATE_TENANT_SUFFIX,
-                        tenantId);
-                RestResponse response = RestClient.delete(new RestRequest(url));
-                _logger.debug(String.format("Tenant ID: %d deleted. %s",
-                        tenantId,
-                        response.getResponseMessage()));
+        if (tenantId > 0) {
+            String url = null;
+            try {
+                if (tenantId > 0) {
+                    url = String.format("%s%s/%d",
+                            _urlContainer.getGaiaUrl(),
+                            Constants.CREATE_TENANT_SUFFIX,
+                            tenantId);
+                    RestResponse response = RestClient.delete(new RestRequest(url));
+                    _logger.debug(String.format(
+                            "Tenant ID: %d deleted. %s",
+                            tenantId,
+                            response.getResponseMessage()));
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url),
+                        ex);
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url), ex);
         }
     }
 

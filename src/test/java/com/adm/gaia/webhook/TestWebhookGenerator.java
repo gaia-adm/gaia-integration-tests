@@ -58,9 +58,7 @@ public class TestWebhookGenerator extends GaiaTestCase {
 
         long tenantId = _tenant.create();
         String token = _tokenBuilder.build(tenantId);
-        String
-                hookUrl =
-                _webhook.generate(token, Constants.DATA_SOURCE, Constants.EVENT_TYPE);
+        String hookUrl = _webhook.generate(token, Constants.DATA_SOURCE, Constants.EVENT_TYPE);
         Assert.assertNotNull(hookUrl, "Null hookUrl");
         Assert.assertFalse(hookUrl.isEmpty(), "Empty hookUrl");
         String httpHookUrl = hookUrl.replace("https", "http");

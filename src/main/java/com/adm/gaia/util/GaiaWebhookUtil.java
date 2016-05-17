@@ -67,7 +67,7 @@ public class GaiaWebhookUtil {
             url = getWebhookUrl();
             ret = RestClient.get(getRequest(accessToken, url, null)).getResponseBody();
         } catch (Exception ex) {
-            _logger.error(String.format("Failed to get tenants' webhooks, URL: %s", url), ex);
+            _logger.warn(String.format("Failed to get tenants' webhooks, URL: %s", url), ex);
         }
 
         return ret;
@@ -90,8 +90,6 @@ public class GaiaWebhookUtil {
         return new RestRequest(url,
                 body,
                 Constants.APPLICATION_JSON,
-                Constants.APPLICATION_JSON).header(
-                "Authorization",
-                "Bearer " + accessToken);
+                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
     }
 }

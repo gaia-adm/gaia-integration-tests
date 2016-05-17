@@ -4,11 +4,13 @@ import com.adm.gaia.Constants;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.testng.Assert;
 
 @Component
 public class GaiaWebhookUtil {
@@ -48,7 +50,17 @@ public class GaiaWebhookUtil {
         }
     }
 
-    public String getTenantWebhooks(String accessToken) {
+    public void deleteTenantWebhook(String accessToken) {
+
+        String webhooks = getTenantWebhooks(accessToken);
+        if (webhooks != null && !webhooks.isEmpty()) {
+            String token = getWebhookToken(webhooks);
+            String url = String.format("%s/%s", getWebhookUrl(), token);
+            RestClient.delete(getRequest(accessToken, url, null)).getResponseBody();
+        }
+    }
+
+    private String getTenantWebhooks(String accessToken) {
 
         String url = null, ret = null;
         try {
@@ -61,12 +73,11 @@ public class GaiaWebhookUtil {
         return ret;
     }
 
-    public void deleteTenantWebhooks(String accessToken) {
-
-        String webhooks = getTenantWebhooks(accessToken);
-        if (webhooks != null) {
-
-        }
+    private String getWebhookToken(String webhooks) {
+        JSONArray json = new JSONArray(webhooks);
+        int count = json.length();
+        Assert.assertEquals(count, 1, "Expected 1 webhook but found " + count);
+        return json.getJSONObject(0).get("token").toString();
     }
 
     private String getWebhookUrl() {

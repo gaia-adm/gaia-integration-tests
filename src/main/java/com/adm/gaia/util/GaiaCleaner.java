@@ -30,13 +30,13 @@ public class GaiaCleaner {
 
         long tenantId = _tenant.getId();
         deleteESIndex(tenantId);
-        deleteClient();
-        deleteTenant(tenantId);
         String token = _etcd.getToken();
         if (token != null && !token.isEmpty()) {
-            _webhook.deleteTenantWebhooks(token);
+            _webhook.deleteTenantWebhook(token);
             revokeToken(token);
         }
+        deleteClient();
+        deleteTenant(tenantId);
     }
 
     private void deleteESIndex(long tenantId) {

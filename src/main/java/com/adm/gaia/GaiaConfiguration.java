@@ -8,20 +8,8 @@ public class GaiaConfiguration {
 
     @Value("${gaia.etcd.url}")
     private String _gaiaEtcdUrl;
-
-    @Value("${gaia.scheme}")
-    private String _gaiaScheme;
-    @Value("${gaia.es.scheme}")
-    private String _gaiaESScheme;
-    @Value("${gaia.host}")
-    private String _gaiaHost;
-    @Value("${gaia.es.host}")
-    private String _gaiaESHost;
-
-    @Value("${gaia.port}")
-    private int _gaiaPort;
-    @Value("${gaia.es.port}")
-    private int _gaiaESPort;
+    @Value("${gaia.es.url}")
+    private String _gaiaESUrl;
     @Value("${tenant.admin.user.name}")
     private String _tenantAdminUserName;
     @Value("${client.name}")
@@ -34,34 +22,9 @@ public class GaiaConfiguration {
         return _gaiaEtcdUrl;
     }
 
-    public String getGaiaScheme() {
+    public String getGaiaESUrl() {
 
-        return _gaiaScheme;
-    }
-
-    public String getGaiaHost() {
-
-        return _gaiaHost;
-    }
-
-    public int getGaiaPort() {
-
-        return _gaiaPort;
-    }
-
-    public String getGaiaESScheme() {
-
-        return _gaiaESScheme;
-    }
-
-    public String getGaiaESHost() {
-
-        return _gaiaESHost;
-    }
-
-    public int getGaiaESPort() {
-
-        return _gaiaESPort;
+        return _gaiaESUrl;
     }
 
     public String getTenantAdminUserName() {

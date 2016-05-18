@@ -2,6 +2,7 @@ package com.adm.gaia.util;
 
 import com.adm.gaia.Constants;
 import com.adm.gaia.GaiaConfiguration;
+import com.adm.gaia.common.GaiaITestException;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
@@ -34,7 +35,7 @@ public class GaiaTenantUtil {
                             Constants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to create tenant, URL: %s, body: %s",
+            throw new GaiaITestException(String.format("Failed to create tenant, URL: %s, body: %s",
                     url,
                     body), ex);
         }
@@ -58,7 +59,7 @@ public class GaiaTenantUtil {
                 ret = new JSONObject(body).getLong("tenantId");
             }
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to get tenant id, URL: %s", url), ex);
+            throw new GaiaITestException(String.format("Failed to get tenant id, URL: %s", url), ex);
         }
 
         return ret;

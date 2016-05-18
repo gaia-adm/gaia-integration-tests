@@ -19,6 +19,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/***
+ * Add gaiaUrl: http://gaia-local.skydns.local:88 as env. variable on Vagrant
+ */
 public class TestWebhookGenerator extends GaiaTestCase {
 
     @Autowired

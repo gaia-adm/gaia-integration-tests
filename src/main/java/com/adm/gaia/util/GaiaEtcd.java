@@ -1,5 +1,6 @@
 package com.adm.gaia.util;
 
+import com.adm.gaia.common.GaiaITestException;
 import mousio.etcd4j.EtcdClient;
 import mousio.etcd4j.responses.EtcdException;
 import mousio.etcd4j.transport.EtcdNettyClient;
@@ -30,10 +31,10 @@ public class GaiaEtcd {
             ret = client().get(TOKEN_PATH).send().get().node.value;
         } catch (EtcdException e) {
             if (!e.getMessage().toLowerCase().contains("key not found")) {
-                throw new RuntimeException("Failed to read token from etcd", e);
+                throw new GaiaITestException("Failed to read token from etcd", e);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to read token from etcd", e);
+            throw new GaiaITestException("Failed to read token from etcd", e);
         }
 
         return ret;
@@ -44,7 +45,7 @@ public class GaiaEtcd {
         try {
             client().put(TOKEN_PATH, token).send().get();
         } catch (Exception e) {
-            throw new RuntimeException(String.format(
+            throw new GaiaITestException(String.format(
                     "Failed to put token ID: %s in etcd (Path: %s)",
                     token,
                     TOKEN_PATH), e);

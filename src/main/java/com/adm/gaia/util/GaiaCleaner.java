@@ -2,6 +2,7 @@ package com.adm.gaia.util;
 
 import com.adm.gaia.Constants;
 import com.adm.gaia.GaiaConfiguration;
+import com.adm.gaia.common.GaiaITestException;
 import com.adm.gaia.elasticsearch.ElasticSearchUtil;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
@@ -48,7 +49,7 @@ public class GaiaCleaner {
                 RestClient.delete(new RestRequest(url));
                 _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
             } catch (Exception e) {
-                if (!e.getMessage().contains("index_not_found_exception")) {
+                if (!e.getCause().getMessage().contains("index_not_found_exception")) {
                     throw e;
                 }
             }
@@ -69,7 +70,7 @@ public class GaiaCleaner {
                     clientName,
                     response.getResponseMessage()));
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to delete client, URL: %s", url), ex);
+            throw new GaiaITestException(String.format("Failed to delete client, URL: %s", url), ex);
         }
     }
 
@@ -90,7 +91,7 @@ public class GaiaCleaner {
                             response.getResponseMessage()));
                 }
             } catch (Exception ex) {
-                throw new RuntimeException(String.format("Failed to delete tenant, URL: %s", url),
+                throw new GaiaITestException(String.format("Failed to delete tenant, URL: %s", url),
                         ex);
             }
         }
@@ -106,7 +107,7 @@ public class GaiaCleaner {
             RestResponse response = RestClient.delete(new RestRequest(url));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to delete token, URL: %s", url), ex);
+            throw new GaiaITestException(String.format("Failed to delete token, URL: %s", url), ex);
         }
         _logger.debug("Deleted Token: " + token);
     }

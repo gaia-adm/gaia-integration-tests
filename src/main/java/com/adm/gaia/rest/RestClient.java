@@ -1,5 +1,6 @@
 package com.adm.gaia.rest;
 
+import com.adm.gaia.common.GaiaITestException;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class RestClient {
             response = execute(log, request);
             body = response.body().string();
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new GaiaITestException("Calling HTTP POST throw an exception", ex);
         }
 
         return new RestResponse(response.toString(), body);
@@ -58,7 +59,7 @@ public class RestClient {
             response = execute(log, request);
             body = response.body().string();
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new GaiaITestException("Calling HTTP DELETE throw an exception", ex);
         }
 
         return new RestResponse(response.toString(), body);
@@ -78,7 +79,7 @@ public class RestClient {
             response = execute(log, request);
             body = response.body().string();
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new GaiaITestException("Calling HTTP GET throw an exception", ex);
         }
 
         return new RestResponse(response.toString(), body);
@@ -89,13 +90,13 @@ public class RestClient {
         Response ret = _client.newCall(request).execute();
         if (!ret.isSuccessful()) {
             String
-                    error =
+                    message =
                     String.format("Unexpected code: %d, %s, %s",
                             ret.code(),
                             ret.body().string(),
                             log);
-            _logger.error(error);
-            throw new RuntimeException(error);
+            _logger.error(message);
+            throw new GaiaITestException(message);
         }
 
         return ret;

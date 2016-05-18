@@ -1,5 +1,6 @@
 package com.adm.gaia.elasticsearch;
 
+import com.adm.gaia.common.GaiaITestException;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
@@ -26,19 +27,19 @@ public class ElasticSearchHttpClient {
         try {
             query = URLEncoder.encode(query, "UTF-8");
         } catch (Exception e) {
-            throw new RuntimeException("Failed to encode ES search query: " + query, e);
+            throw new GaiaITestException("Failed to encode ES search query: " + query, e);
         }
         String url = String.format("%s%s/_search?q=%s", _urlContainer.getGaiaESUrl(), index, query);
         try {
             RestResponse response = RetriableOperationExecutor.execute(
                     Void -> RestClient.get(new RestRequest(url)),
-                    exception -> exception.getMessage().contains("index_not_found_exception"),
+                    exception -> exception.getCause().getMessage().contains("index_not_found_exception"),
                     5000,
                     3);
             ret = response.getResponseBody();
             _logger.debug(String.format("Search URL: %s, Results: %s", url, ret));
         } catch (Exception e) {
-            throw new RuntimeException("Failed to search for created webhook index in ES, url: "
+            throw new GaiaITestException("Failed to search for created webhook index in ES, url: "
                                        + url, e);
         }
 

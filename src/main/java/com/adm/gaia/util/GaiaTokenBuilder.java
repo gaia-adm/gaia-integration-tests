@@ -2,6 +2,7 @@ package com.adm.gaia.util;
 
 import com.adm.gaia.Constants;
 import com.adm.gaia.GaiaConfiguration;
+import com.adm.gaia.common.GaiaITestException;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
 import com.adm.gaia.rest.RestResponse;
@@ -46,7 +47,7 @@ public class GaiaTokenBuilder {
             _logger.debug(jsonObject.toString());
             ret = jsonObject.getString("access_token");
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to create token, URL: %s", url), ex);
+            throw new GaiaITestException(String.format("Failed to create token, URL: %s", url), ex);
         }
 
         return ret;
@@ -66,7 +67,7 @@ public class GaiaTokenBuilder {
                             Constants.APPLICATION_JSON));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Failed to create client, URL: %s, body: %s",
+            throw new GaiaITestException(String.format("Failed to create client, URL: %s, body: %s",
                     url,
                     body), ex);
         }

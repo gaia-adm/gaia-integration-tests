@@ -1,5 +1,7 @@
 package com.adm.gaia.util;
 
+import com.adm.gaia.common.GaiaITestException;
+
 import java.util.function.Function;
 
 public class RetriableOperationExecutor {
@@ -24,7 +26,7 @@ public class RetriableOperationExecutor {
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException ie) {
-                    throw new RuntimeException(ie);
+                    throw new GaiaITestException("Retriable Operation Executor interrupted while sleep", ie);
                 }
             }
         }

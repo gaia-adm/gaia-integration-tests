@@ -10,7 +10,7 @@ LABEL test=
 LABEL test.run.interval=300000
 LABEL test.results.dir=/src/results
 LABEL test.results.file=TestSuite.txt
-LABEL test.publish.description="Gaia Integration Tests"
+LABEL test.container.settings={\"Config\":{\"Env\":[\"etcdUrl=http://10.60.4.229:4001\",\"gaiaUrl=boris.gaiahub.io\"]}}"
 
 RUN ["mvn","clean","install"]
 

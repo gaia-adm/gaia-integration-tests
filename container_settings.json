@@ -1,14 +1,10 @@
 {
-  "_comment": "gaia-itest",
+  "_comment": "FOR DETAILED FORMAT LOOK AT https://docs.docker.com/reference/api/docker_remote_api_v1.16/#create-a-container",
   "Image": "gaiaadm/gaia-integration-tests",
-  "ExposedPorts": {
-    "22/tcp": {}
-  },
-  "AttachStdin": true,
-  "OpenStdin": true,
-  "HostConfig": {
-    "PortBindings":{
-      "22/tcp": [{ "HostIp": "0.0.0.0", "HostPort": "2221" }]},
-    "RestartPolicy": { "Name": "on-failure", "MaximumRetryCount": 5 }
+  "Config": {
+    "Env": [
+      "etcdUrl=http://10.60.4.229:4001",
+      "gaiaUrl=boris.gaiahub.io"
+    ]
   }
 }

@@ -61,13 +61,13 @@ public class GaiaEtcd {
             config.setMaxFrameSize(1024 * 100 * 50);
 
             String etcdUrl = System.getenv("etcdUrl");
-            if (etcdUrl != null && etcdUrl.isEmpty()) {
+            if (etcdUrl != null && !etcdUrl.isEmpty()) {
                 _logger.debug("Using Etcd URL " + etcdUrl);
                 _etcdClient =
                         new EtcdClient(new EtcdNettyClient(config, null, URI.create(etcdUrl)));
             } else {
                 etcdUrl = _urlContainer.getGaiaEtcdUrl();
-                if (etcdUrl != null && etcdUrl.isEmpty()) {
+                if (etcdUrl != null && !etcdUrl.isEmpty()) {
                     _logger.debug(
                             "No Etcd URL provided as env. variable, using the configuration file: "
                             + etcdUrl);

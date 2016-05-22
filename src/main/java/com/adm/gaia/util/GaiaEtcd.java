@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 
 @Component
 public class GaiaEtcd {
@@ -59,37 +58,29 @@ public class GaiaEtcd {
             //Set Netty max frame size to 5MB instead of 100K to support 'select * ' stile operations, e.g. for EtcdTokenStore.getAccessToken method
             EtcdNettyConfig config = new EtcdNettyConfig();
             config.setMaxFrameSize(1024 * 100 * 50);
-
-            String etcdUrl = System.getenv("etcdUrl");
-            if (etcdUrl != null && !etcdUrl.isEmpty()) {
-                _logger.debug("Using Etcd URL " + etcdUrl);
-                _etcdClient =
-                        new EtcdClient(new EtcdNettyClient(config, null, URI.create(etcdUrl)));
-            } else {
-                etcdUrl = _urlContainer.getGaiaEtcdUrl();
-                if (etcdUrl != null && !etcdUrl.isEmpty()) {
-                    _logger.debug(
-                            "No Etcd URL provided as env. variable, using the configuration file: "
-                            + etcdUrl);
-                    _etcdClient =
-                            new EtcdClient(new EtcdNettyClient(config, null, URI.create(etcdUrl)));
-                } else {
-                    try {
-                        etcdUrl = String.format("http://%s:4001", InetAddress.getLocalHost());
-                        _logger.debug(
-                                "No Etcd URL provided as env. variable or configuration file, using the host IP: "
-                                + etcdUrl);
-                        _etcdClient =
-                                new EtcdClient(new EtcdNettyClient(config,
-                                        null,
-                                        URI.create(etcdUrl)));
-                    } catch (Exception e) {
-                        throw new GaiaITestException("Failed to create etcd client using local host IP address", e);
-                    }
-                }
-            }
+            _etcdClient =
+                    new EtcdClient(new EtcdNettyClient(config, null, URI.create(getEtcdUrl())));
         }
 
         return _etcdClient;
+    }
+
+    private String getEtcdUrl() {
+
+        String ret = System.getenv("ret");
+        if (ret == null || ret.isEmpty()) {
+            ret = _urlContainer.getGaiaEtcdUrl();
+            if (ret == null || ret.isEmpty()) {
+                try {
+                    ret = String.format("http://%s:4001", InetAddress.getLocalHost());
+                } catch (Exception e) {
+                    throw new GaiaITestException("Failed to create etcd client using local host IP address",
+                            e);
+                }
+            }
+        }
+        _logger.debug("Etcd client URL: " + ret);
+
+        return ret;
     }
 }

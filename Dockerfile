@@ -6,7 +6,7 @@ COPY . /src
 # Set the working directory
 WORKDIR /src
 
-LABEL test=
+LABEL test=true
 LABEL test.run.interval=300000
 LABEL test.results.dir=/src/results
 LABEL test.results.file=TestSuite.txt

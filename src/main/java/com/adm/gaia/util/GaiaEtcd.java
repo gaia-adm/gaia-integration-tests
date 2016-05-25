@@ -67,16 +67,13 @@ public class GaiaEtcd {
 
     private String getEtcdUrl() {
 
-        String ret = System.getenv("ret");
+        String ret = _urlContainer.getGaiaEtcdUrl();
         if (ret == null || ret.isEmpty()) {
-            ret = _urlContainer.getGaiaEtcdUrl();
-            if (ret == null || ret.isEmpty()) {
-                try {
-                    ret = String.format("http://%s:4001", InetAddress.getLocalHost());
-                } catch (Exception e) {
-                    throw new GaiaITestException("Failed to create etcd client using local host IP address",
-                            e);
-                }
+            try {
+                ret = String.format("http://%s:4001", InetAddress.getLocalHost());
+            } catch (Exception e) {
+                throw new GaiaITestException("Failed to create etcd client using local host IP address",
+                        e);
             }
         }
         _logger.debug("Etcd client URL: " + ret);

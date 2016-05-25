@@ -17,7 +17,7 @@ public class GaiaUrlContainer {
     public String getGaiaUrl() {
 
         if (StringUtils.isEmpty(_gaiaUrl)) {
-            _gaiaUrl = System.getenv("gaiaUrl");
+            _gaiaUrl = _config.getGaiaUrl();
             if(_gaiaUrl == null) {
                 throw new GaiaITestException("Gaia URL environment variable not found (gaiaUrl)");
             }

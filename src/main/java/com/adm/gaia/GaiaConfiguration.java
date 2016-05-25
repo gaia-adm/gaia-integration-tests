@@ -6,10 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class GaiaConfiguration {
 
-    @Value("${gaia.etcd.url}")
+    @Value("${etcdUrl}")
     private String _gaiaEtcdUrl;
     @Value("${gaia.es.url}")
     private String _gaiaESUrl;
+    @Value("${gaiaUrl}")
+    private String _gaiaUrl;
     @Value("${tenant.admin.user.name}")
     private String _tenantAdminUserName;
     @Value("${client.name}")
@@ -25,6 +27,11 @@ public class GaiaConfiguration {
     public String getGaiaESUrl() {
 
         return _gaiaESUrl;
+    }
+
+    public String getGaiaUrl() {
+
+        return _gaiaUrl;
     }
 
     public String getTenantAdminUserName() {

@@ -70,7 +70,9 @@ public class GaiaEtcd {
         String ret = _urlContainer.getGaiaEtcdUrl();
         if (ret == null || ret.isEmpty()) {
             try {
-                ret = String.format("http://%s:4001", InetAddress.getLocalHost());
+                _logger.debug("Effi *** InetAddress.getLocalHost(): " + InetAddress.getLocalHost());
+                _logger.debug("Effi *** getHostAddress(): " + InetAddress.getLocalHost().getHostAddress());
+                ret = String.format("http://%s:4001", InetAddress.getLocalHost().getHostAddress());
             } catch (Exception e) {
                 throw new GaiaITestException("Failed to create etcd client using local host IP address",
                         e);

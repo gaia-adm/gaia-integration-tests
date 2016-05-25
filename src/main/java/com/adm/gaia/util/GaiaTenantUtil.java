@@ -59,7 +59,7 @@ public class GaiaTenantUtil {
                 ret = new JSONObject(body).getLong("tenantId");
             }
         } catch (Exception ex) {
-            throw new GaiaITestException(String.format("Failed to get tenant id, URL: %s", url), ex);
+            _logger.warn(String.format("Failed to get tenant id, URL: %s", url), ex);
         }
 
         return ret;

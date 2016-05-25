@@ -59,27 +59,9 @@ public class GaiaEtcd {
             EtcdNettyConfig config = new EtcdNettyConfig();
             config.setMaxFrameSize(1024 * 100 * 50);
             _etcdClient =
-                    new EtcdClient(new EtcdNettyClient(config, null, URI.create(getEtcdUrl())));
+                    new EtcdClient(new EtcdNettyClient(config, null, URI.create(_urlContainer.getGaiaEtcdUrl())));
         }
 
         return _etcdClient;
-    }
-
-    private String getEtcdUrl() {
-
-        String ret = _urlContainer.getGaiaEtcdUrl();
-        if (ret == null || ret.isEmpty()) {
-            try {
-                _logger.debug("Effi *** InetAddress.getLocalHost(): " + InetAddress.getLocalHost());
-                _logger.debug("Effi *** getHostAddress(): " + InetAddress.getLocalHost().getHostAddress());
-                ret = String.format("http://%s:4001", InetAddress.getLocalHost().getHostAddress());
-            } catch (Exception e) {
-                throw new GaiaITestException("Failed to create etcd client using local host IP address",
-                        e);
-            }
-        }
-        _logger.debug("Etcd client URL: " + ret);
-
-        return ret;
     }
 }

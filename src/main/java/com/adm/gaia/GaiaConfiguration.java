@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class GaiaConfiguration {
 
-    @Value("${etcdUrl}")
-    private String _gaiaEtcdUrl;
+    @Value("${etcdHost}")
+    private String _gaiaEtcdHost;
     @Value("${gaia.es.url}")
     private String _gaiaESUrl;
     @Value("${gaiaUrl}")
@@ -19,9 +19,9 @@ public class GaiaConfiguration {
     @Value("${client.secret}")
     private String _clientSecret;
 
-    public String getGaiaEtcdUrl() {
+    public String getGaiaEtcdHost() {
 
-        return _gaiaEtcdUrl;
+        return _gaiaEtcdHost;
     }
 
     public String getGaiaESUrl() {

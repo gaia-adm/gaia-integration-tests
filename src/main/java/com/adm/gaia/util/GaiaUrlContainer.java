@@ -13,6 +13,7 @@ public class GaiaUrlContainer {
     private GaiaConfiguration _config;
     private String _gaiaUrl;
     private String _gaiaESUrl;
+    private String _etcdUrl;
 
     public String getGaiaUrl() {
 
@@ -39,7 +40,11 @@ public class GaiaUrlContainer {
 
     public String getGaiaEtcdUrl() {
 
-        return _config.getGaiaEtcdUrl();
+        if (StringUtils.isEmpty(_etcdUrl)) {
+            _etcdUrl = String.format("http://%s:4001", _config.getGaiaEtcdHost());
+        }
+
+        return _etcdUrl;
     }
 
     private String addSlash(String url) {

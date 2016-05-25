@@ -50,7 +50,7 @@ public class GaiaCleaner {
                 _logger.debug(String.format("ElasticSearch index %s deleted (%s)", index, url));
             } catch (Exception e) {
                 if (!e.getCause().getMessage().contains("index_not_found_exception")) {
-                    throw e;
+                    _logger.warn(String.format("Failed to delete elasticsearch index: %s, URL: %s", index, url), e);
                 }
             }
         }
@@ -70,7 +70,7 @@ public class GaiaCleaner {
                     clientName,
                     response.getResponseMessage()));
         } catch (Exception ex) {
-            throw new GaiaITestException(String.format("Failed to delete client, URL: %s", url), ex);
+            _logger.warn(String.format("Failed to delete client, URL: %s", url), ex);
         }
     }
 
@@ -85,14 +85,12 @@ public class GaiaCleaner {
                             Constants.CREATE_TENANT_SUFFIX,
                             tenantId);
                     RestResponse response = RestClient.delete(new RestRequest(url));
-                    _logger.debug(String.format(
-                            "Tenant ID: %d deleted. %s",
+                    _logger.debug(String.format("Tenant ID: %d deleted. %s",
                             tenantId,
                             response.getResponseMessage()));
                 }
             } catch (Exception ex) {
-                throw new GaiaITestException(String.format("Failed to delete tenant, URL: %s", url),
-                        ex);
+                _logger.warn(String.format("Failed to delete tenant, URL: %s", url), ex);
             }
         }
     }
@@ -107,7 +105,7 @@ public class GaiaCleaner {
             RestResponse response = RestClient.delete(new RestRequest(url));
             _logger.debug(response.getResponseMessage());
         } catch (Exception ex) {
-            throw new GaiaITestException(String.format("Failed to delete token, URL: %s", url), ex);
+            _logger.warn(String.format("Failed to delete token, URL: %s", url), ex);
         }
         _logger.debug("Deleted Token: " + token);
     }

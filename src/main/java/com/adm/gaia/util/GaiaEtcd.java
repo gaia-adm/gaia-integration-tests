@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
 import java.net.URI;
 
 @Component
@@ -60,6 +59,7 @@ public class GaiaEtcd {
             config.setMaxFrameSize(1024 * 100 * 50);
             _etcdClient =
                     new EtcdClient(new EtcdNettyClient(config, null, URI.create(_urlContainer.getGaiaEtcdUrl())));
+            _logger.debug("Gaia etcd URL: " + _urlContainer.getGaiaEtcdUrl());
         }
 
         return _etcdClient;

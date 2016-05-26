@@ -32,10 +32,10 @@ public class GaiaEtcd {
             ret = client().get(TOKEN_PATH).send().get().node.value;
         } catch (EtcdException e) {
             if (!e.getMessage().toLowerCase().contains("key not found")) {
-                throw new GaiaITestException("Failed to read token from etcd", e);
+                throw new GaiaITestException("Failed to read token from etcd, url: " + _urlContainer.getGaiaEtcdUrl(), e);
             }
         } catch (Exception e) {
-            throw new GaiaITestException("Failed to read token from etcd", e);
+            throw new GaiaITestException("Failed to read token from etcd, url: " + _urlContainer.getGaiaEtcdUrl(), e);
         }
 
         return ret;

@@ -10,7 +10,7 @@ LABEL test=true
 LABEL test.run.interval=300000
 LABEL test.results.dir=/src/results
 LABEL test.results.file=TestSuite.txt
-LABEL test.container.settings={\"Config\":{\"Env\":[\"gaiaUrl=boris.gaiahub.io\"]}}
+LABEL test.container.settings={\"Config\":{\"Env\":[\"gaiaUrl=http://boris.gaiahub.io:88\", \"/etc/environment\"]}}
 
 RUN ["mvn","clean","install"]
 

@@ -11,7 +11,7 @@ LABEL test.environment.file=/etc/environment
 LABEL test.container.settings={\"Config\":{\"Env\":[\"gaiaUrl=http://boris.gaiahub.io:88\"]}}
 LABEL test.results.dir=/src/results
 LABEL test.results.file=TestSuite.txt
-LABEL test.run.interval=300000
+LABEL test.run.interval=86400000
 
 RUN ["mvn","clean","install"]
 

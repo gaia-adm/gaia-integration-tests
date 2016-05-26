@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GaiaConfiguration {
 
-    @Value("${etcdHost}")
+    @Value("${COREOS_PRIVATE_IPV4}")
     private String _gaiaEtcdHost;
     @Value("${gaia.es.url}")
     private String _gaiaESUrl;

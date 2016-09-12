@@ -6,13 +6,12 @@ COPY . /src
 # Set the working directory
 WORKDIR /src
 
-LABEL test=true
-LABEL test.environment.file=/etc/environment
-LABEL test.container.settings={\"Config\":{\"Env\":[\"gaiaUrl=http://boris.gaiahub.io:88\"]}}
-LABEL test.results.dir=/src/results
-LABEL test.results.file=TestSuite.txt
-LABEL test.run.interval=24h
-
 RUN ["mvn","clean","install"]
 
 CMD ["mvn","clean","install"]
+
+LABEL tugbot.test=true
+LABEL tugbot.results.dir=/var/docker-bench-test/results
+LABEL tugbot.event.docker=
+LABEL tugbot.event.docker.filter.type=container
+LABEL tugbot.event.docker.filter.action=start

@@ -25,6 +25,9 @@ TimeoutStopSec=15
 # work correctly.
 KillMode=none
 
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
 # Pre-start and Start
 ## Directives with "=-" are allowed to fail without consequence
 ExecStartPre=-/usr/bin/docker stop gaia-integration-tests

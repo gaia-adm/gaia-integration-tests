@@ -91,6 +91,6 @@ public class GaiaWebhookUtil {
         return new RestRequest(url,
                 body,
                 Constants.APPLICATION_JSON,
-                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken);
+                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken).header("X-ORIG-SERVER", _urlContainer.getGaiaUrl());
     }
 }

@@ -1,6 +1,7 @@
 package com.adm.gaia.util;
 
 import com.adm.gaia.Constants;
+import com.adm.gaia.GaiaConfiguration;
 import com.adm.gaia.common.GaiaITestException;
 import com.adm.gaia.rest.RestClient;
 import com.adm.gaia.rest.RestRequest;
@@ -19,6 +20,8 @@ public class GaiaWebhookUtil {
     private static final Logger _logger = LoggerFactory.getLogger(GaiaTokenBuilder.class);
     @Autowired
     private GaiaUrlContainer _urlContainer;
+    @Autowired
+    private GaiaConfiguration _config;
 
     public String generate(String accessToken, String dataSource, String eventType) {
 
@@ -91,6 +94,6 @@ public class GaiaWebhookUtil {
         return new RestRequest(url,
                 body,
                 Constants.APPLICATION_JSON,
-                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken).header("X-ORIG-SERVER", _urlContainer.getGaiaUrl());
+                Constants.APPLICATION_JSON).header("Authorization", "Bearer " + accessToken).header("X-ORIG-SERVER", _config.getGaiaHost());
     }
 }

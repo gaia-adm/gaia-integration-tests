@@ -1,6 +1,7 @@
 package com.adm.gaia.webhook;
 
 import com.adm.gaia.Constants;
+import com.adm.gaia.GaiaConfiguration;
 import com.adm.gaia.elasticsearch.ElasticSearchHttpClient;
 import com.adm.gaia.elasticsearch.ElasticSearchUtil;
 import com.adm.gaia.util.GaiaCleaner;
@@ -34,6 +35,8 @@ public class TestWebhookGenerator extends GaiaTestCase {
     private ElasticSearchHttpClient _esClient;
     @Autowired
     private GaiaTenantUtil _tenant;
+    @Autowired
+    private GaiaConfiguration _config;
 
     @BeforeMethod
     public void cleanup() {
@@ -45,6 +48,8 @@ public class TestWebhookGenerator extends GaiaTestCase {
     public void testGenerate() throws Exception {
 
         long tenantId = publishData();
+        System.out.println("Going to sleep for: " + _config.getSleepTimeBeforeEsCheck() + " millis, before checking ES...");
+        Thread.sleep(_config.getSleepTimeBeforeEsCheck());
         validateTenantCreationOnElasticSearch(tenantId);
     }
 

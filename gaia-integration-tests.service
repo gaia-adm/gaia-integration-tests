@@ -33,7 +33,7 @@ EnvironmentFile=/etc/environment
 ExecStartPre=-/usr/bin/docker stop gaia-integration-tests
 ExecStartPre=-/usr/bin/docker rm gaia-integration-tests # It's important to remove the container so tugbot won't have two versions of the same container to run
 
-ExecStart=/usr/bin/docker run --name gaia-integration-tests -e etcdUrl=http://${COREOS_PRIVATE_IPV4}:4001 -e gaiaUrl=master.gaiahub.io --log-driver=journald gaiaadm/gaia-integration-tests
+ExecStart=/usr/bin/docker run --name gaia-integration-tests -e gaia.etcd.url=http://${COREOS_PRIVATE_IPV4}:4001 -e gaia.host=master.gaiahub.io --log-driver=journald gaiaadm/gaia-integration-tests
 
 # Stop
 ExecStop=/usr/bin/docker stop gaia-integration-tests

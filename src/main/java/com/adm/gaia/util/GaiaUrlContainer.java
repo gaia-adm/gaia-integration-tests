@@ -18,10 +18,7 @@ public class GaiaUrlContainer {
     public String getGaiaUrl() {
 
         if (StringUtils.isEmpty(_gaiaUrl)) {
-            _gaiaUrl = _config.getGaiaUrl();
-            if(_gaiaUrl == null) {
-                throw new GaiaITestException("Gaia URL environment variable not found (gaiaUrl)");
-            }
+            _gaiaUrl = String.format("%s://%s:%s", _config.getGaiaNetProtocol(), _config.getGaiaHost(), _config.getGaiaPort());
             _gaiaUrl = addSlash(_gaiaUrl);
         }
 
@@ -41,9 +38,8 @@ public class GaiaUrlContainer {
     public String getGaiaEtcdUrl() {
 
         if (StringUtils.isEmpty(_etcdUrl)) {
-            _etcdUrl = String.format("http://%s:4001", _config.getGaiaEtcdHost());
+            _etcdUrl = _config.getGaiaEtcdUrl();
         }
-
         return _etcdUrl;
     }
 

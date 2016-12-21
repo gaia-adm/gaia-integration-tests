@@ -10,8 +10,8 @@ RUN ["mvn","clean","install"]
 
 CMD ["mvn","clean","install"]
 
-LABEL tugbot_test=true
-LABEL tugbot_results_dir=/src/results/junitreports
-LABEL tugbot_event_docker=
-LABEL tugbot_event_docker_filter_type=container
-LABEL tugbot_event_docker_filter_action=start
+LABEL tugbot-test=true
+LABEL tugbot-results-dir=/src/results/junitreports
+LABEL tugbot-event-docker=
+LABEL tugbot-event-docker-filter-type=container
+LABEL tugbot-event-docker-filter-action=start
